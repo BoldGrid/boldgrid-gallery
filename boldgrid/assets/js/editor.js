@@ -32,6 +32,7 @@ var IMHWPBGallery = IMHWPBGallery  || {};
 			_.each( this.state, function( state ) {
 				frame.state( state ).on( 'update', function( selection ) {
 					update( media.shortcode( selection ).string() );
+					IMHWPBGallery.init_gallery( $( tinymce.activeEditor.iframeElement ).contents() );
 				} );
 			} );
 
@@ -48,9 +49,10 @@ var IMHWPBGallery = IMHWPBGallery  || {};
 		template: wp.media.template( 'editor-gallery' ),
 
 		initialize: function() {
-			
 			this.tiny_mce_iframe = jQuery(tinymce.activeEditor.iframeElement).contents();
-			var type = '';
+			var type = '',
+				reverseAttachmentOrder = false;
+
 			if ( typeof this.shortcode.attrs.named.display != 'undefined' ) {
 				type = this.shortcode.attrs.named.display;
 			}
@@ -72,6 +74,7 @@ var IMHWPBGallery = IMHWPBGallery  || {};
 			 */
 			if ( false == type ) {
 				this.template = wp.media.template( 'editor-gallery-boldgrid-masonry' );
+				reverseAttachmentOrder = true;
 			} else {
 				switch ( type ) {
 					case 'owlcolumns':
@@ -103,6 +106,10 @@ var IMHWPBGallery = IMHWPBGallery  || {};
 			attachments.more()
 			.done( function() {
 				attachments = attachments.toJSON();
+				
+				if ( reverseAttachmentOrder ) {
+					attachments.reverse();
+				}
 
 				_.each( attachments, function( attachment ) {
 					if ( attachment.sizes ) {
@@ -122,7 +129,6 @@ var IMHWPBGallery = IMHWPBGallery  || {};
 					columns: attrs.columns ? parseInt( attrs.columns, 10 ) : wp.media.galleryDefaults.columns
 				} ) );
 				
-				
 				//After the markup is renderd, initalize all of the galleries.
 				//The timeout may not be needed, put it in just to be sure. 
 				//Prior to WP 4.2, this was done with the "update" event. 
@@ -130,7 +136,7 @@ var IMHWPBGallery = IMHWPBGallery  || {};
 				//TODO: trigger this off of an event
 				setTimeout(function () {
 					IMHWPBGallery.init_gallery(self.tiny_mce_iframe);
-				}, 150);
+				}, 350 );
 			} )
 			.fail( function( jqXHR, textStatus ) {
 				self.setError( textStatus );
@@ -227,7 +233,7 @@ var IMHWPBGallery = IMHWPBGallery  || {};
 		
 		var o = calculateGrid($container);
 		$postBox.css({'width':o.columnWidth+'px', 'margin-bottom':o.gutterWidth+'px', 'padding':'0'});
-		$container.resizing 
+
 		$container.masonry( {
 			itemSelector: '.gallery-item',
 			columnWidth: o.columnWidth,
@@ -242,16 +248,13 @@ var IMHWPBGallery = IMHWPBGallery  || {};
 		$(window).off('.boldgrid-gallery');
 		$master_container.find('.gallery-masonry').each( function() {
 			var $container = jQuery(this);
-			
-			if ( $container.is(':hidden') ) {
-				return;
-			}
+			var $posts = $container.children( '.gallery-item' ).show().css( 'visibility', 'visible' );
 			
 			imagesLoaded( $container, function() {
-				IMHWPBGallery.runMasonry(0, $container);
-				$container.css('visibility', 'visible');
+				IMHWPBGallery.runMasonry( 0, $container );
+				$container.show().css( 'visibility', 'visible' );
+				$container.wcGalleryMasonryImagesReveal( $posts );
 			});
-			
 			
 			//--Bold Grid--
 			//This function call was added to prevent resize from being called repeatedly times 
