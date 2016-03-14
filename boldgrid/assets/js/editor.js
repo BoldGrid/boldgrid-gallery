@@ -130,13 +130,7 @@ var IMHWPBGallery = IMHWPBGallery  || {};
 				} ) );
 				
 				//After the markup is renderd, initalize all of the galleries.
-				//The timeout may not be needed, put it in just to be sure. 
-				//Prior to WP 4.2, this was done with the "update" event. 
-				//But it no longer appears to be triggered
-				//TODO: trigger this off of an event
-				setTimeout(function () {
-					IMHWPBGallery.init_gallery(self.tiny_mce_iframe);
-				}, 350 );
+				IMHWPBGallery.init_gallery( self.tiny_mce_iframe );
 			} )
 			.fail( function( jqXHR, textStatus ) {
 				self.setError( textStatus );
@@ -146,7 +140,6 @@ var IMHWPBGallery = IMHWPBGallery  || {};
 	
 	views.register( 'gallery', _.extend( {}, gallery ) );
 
-	
 	/**
 	 * Procedure to be done when rezing is complete
 	 * This function is BoldGrid only
@@ -250,16 +243,17 @@ var IMHWPBGallery = IMHWPBGallery  || {};
 			var $container = jQuery(this);
 			var $posts = $container.children( '.gallery-item' ).show().css( 'visibility', 'visible' );
 			
-			imagesLoaded( $container, function() {
+			$container.imagesLoaded( function() {
 				IMHWPBGallery.runMasonry( 0, $container );
 				$container.show().css( 'visibility', 'visible' );
 				$container.wcGalleryMasonryImagesReveal( $posts );
+
+				//--Bold Grid--
+				//This function call was added to prevent resize from being called repeatedly times
+				//when dragging window resize
+				on_screen_resize( $container );
 			});
 			
-			//--Bold Grid--
-			//This function call was added to prevent resize from being called repeatedly times 
-			//when dragging window resize
-			on_screen_resize( $container );
 		});
 	};
 	
