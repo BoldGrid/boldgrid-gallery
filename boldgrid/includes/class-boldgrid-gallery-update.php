@@ -66,7 +66,8 @@ class Boldgrid_Gallery_Update {
 
 			// Is page for plugin information?
 			$is_plugin_information = ( 'plugin-install.php' === $pagenow && isset( $_GET['plugin'] ) &&
-				 isset( $_GET['tab'] ) && 'plugin-information' === $_GET['tab'] );
+				 'boldgrid-gallery' === $_GET['plugin'] && isset( $_GET['tab'] ) &&
+				 'plugin-information' === $_GET['tab'] );
 
 			// Is this a plugin update action?
 			$is_plugin_update = ( isset( $_REQUEST['action'] ) &&
