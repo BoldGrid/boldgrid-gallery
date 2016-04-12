@@ -3,7 +3,7 @@
  * Plugin Name: BoldGrid Gallery
  * Plugin URI: http://www.boldgrid.com
  * Description: Extend WordPress galleries to display masonry gallery and slider gallery
- * Version: 1.0.4
+ * Version: 1.1
  * Author: BoldGrid.com <wpb@boldgrid.com>
  * Author URI: http://www.boldgrid.com
  * Text Domain: boldgrid-gallery
@@ -20,7 +20,7 @@ if ( ! defined( 'WPINC' ) ) {
 
 // Define Editor version:
 if ( ! defined( 'BOLDGRID_GALLERY_VERSION' ) ) {
-	define( 'BOLDGRID_GALLERY_VERSION', '1.0.4' );
+	define( 'BOLDGRID_GALLERY_VERSION', '1.1' );
 }
 
 /* @formatter:off */
