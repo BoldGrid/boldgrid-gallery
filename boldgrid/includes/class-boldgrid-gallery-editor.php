@@ -69,8 +69,11 @@ class Boldgrid_Gallery_Editor {
 	public function wc_gallery_boldgrid_enqueue_admin_scripts() {
 		$screen = get_current_screen();
 
+		// Is this a 'page' or a 'post' ( IE not an 'attachment' ).
+		$is_post = ( 'page' === $screen->post_type || 'post' === $screen->post_type );
+
 		// Add styles to editor
-		if ( 'post' == $screen->base ) {
+		if ( 'post' == $screen->base && $is_post ) {
 			add_editor_style( WC_GALLERY_PLUGIN_URL . 'includes/css/style.css' );
 			add_editor_style( WC_GALLERY_PLUGIN_URL . 'boldgrid/assets/css/editor.css' );
 
