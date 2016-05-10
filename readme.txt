@@ -2,7 +2,7 @@
 Contributors: imh_brad, joemoto, rramo012, timph
 Tags: inspiration,customization,build,create,design,gallery,slider,slideshow
 Requires at least: 4.3
-Tested up to: 4.5.1
+Tested up to: 4.5.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -20,7 +20,7 @@ BoldGrid Gallery is a standalone plugin used for slideshows and galleries.
 
 == Changelog ==
 
-= 1.1.1 In progress =
+= 1.1.1 =
 * Update:		JIRA WPB-1884	Passed WordPress 4.5.1 testing.
 * Bug fix:		JIRA WPB-1893	JS errors in console when viewing attachments.
 
