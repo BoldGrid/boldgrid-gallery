@@ -88,9 +88,44 @@
 
 			$(window).resize(function() {
 				runMasonry(0, $container, $posts, 'masonry');
-			}); 
+			});
 
 		});
+
+		/* BEGIN: BoldGrid */
+		if( jQuery().coverflow ) {
+			$('.gallery-coverflow').each( function() {
+				var $this = $(this);
+				$this.hide();
+				imagesLoaded( $this, function() {
+					$this.show();
+
+					if ( $.fn.reflect && $this.data('reflections') === true ) {
+						$this.find('img').reflect();
+					}
+
+					var $coverflow = $this.coverflow({
+						index:			$this.data('index'),
+						density:		2,
+						innerAngle:		0,
+						duration: $this.data('speed'),
+						'confirm' : function (e) {
+							if ( e.currentTarget ) {
+								$(e.currentTarget).find('a').trigger('click');
+							}
+						}
+					});
+
+					$this.find('a').on("click", function (e) {
+						if ( e.originalEvent ) {
+							e.preventDefault();
+							e.stopPropagation();
+						}
+					});
+				});
+			});
+		}
+		/* END: BoldGrid */
 
 		if( jQuery().magnificPopup) {
 			$('.gallery-link-file').each( function() {
@@ -141,6 +176,12 @@
 				var showNav = hideControls ? false : true;
 				var containerWidth = $this.width();
 
+				/* BEGIN: BoldGrid */
+				if ( $.fn.reflect && $this.find('.gallery').data('reflections') === true ) {
+					$flex.find('img').reflect();
+				}
+				/* END: BoldGrid */
+
 				$this.addClass('wcflexslider-is-active');
 
 				gutterWidth = parseInt( gutterWidth );
@@ -176,6 +217,18 @@
 							animation:"slide"
 						});
 					}
+					/* BEGIN: BoldGrid */
+					else if ( $flex.hasClass('wcsliderfadeauto') ) {
+						$flex.wcflexslider({
+							prevText: "",
+							nextText: "",
+							smoothHeight: true,
+							slideshow: true,
+							directionNav: showNav,
+							animation:"fade"
+						});
+					}
+					/* END: BoldGrid */
 					else if ( $flex.hasClass('wccarousel') ) {
 						$flex.wcflexslider({
 							prevText: "",
@@ -210,7 +263,7 @@
 											}
 										}
 									}
-								}); 
+								});
 							}
 						});
 					}
@@ -305,11 +358,11 @@
 	// Triggers re-layout on infinite scroll
 	$( document.body ).on( 'post-load', function () {
 		initGallery();
-	}); 
+	});
 
 	// Triggers re-layout on accordion, tabs, toggle
 	$( document.body ).on( 'wcs-toggled', function () {
 		initGallery();
-	}); 
+	});
 
 } )( jQuery );

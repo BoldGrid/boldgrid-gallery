@@ -21,6 +21,13 @@
 }
 .wc-gallery .gallery.gallery-masonry .gallery-item {
 }
+
+/** BoldGrid */
+.mce-content-body .wc-gallery .gallery.gallery-masonry .gallery-item {
+	display: block;
+}
+/**/
+
 .wc-gallery .gallery.gallery-masonry,
 .wc-gallery .gallery.gallery-default {
 }
@@ -328,3 +335,27 @@
 body .mfp-arrow:active {
     margin-top: -55px;
 }
+
+/** BoldGrid */
+.wc-gallery img {
+	cursor: pointer;
+}
+
+.gallery {
+    margin: auto -6px;
+    padding: 6px 0;
+    line-height: 1;
+    overflow-x: hidden;
+}
+
+.wc-gallery .gallery.gallery-masonry {
+	visibility: visible;
+}
+
+.wpview-wrap[data-wpview-type="gallery"] {
+	margin-bottom: 0px;
+}
+.wpview-wrap .gallery .gallery-item {
+	padding: 0px;
+}
+/**/

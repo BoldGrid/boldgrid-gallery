@@ -1,13 +1,30 @@
 <?php
-/*
-Plugin Name: WP Canvas - Gallery
-Plugin URI: http://wordpresscanvas.com/features/gallery/
-Description: Extend WordPress galleries to display masonry gallery, carousel gallery, and slider gallery
-Author: Chris Baldelomar
-Author URI: http://webplantmedia.com/
-Version: 1.52
-License: GPLv2 or later
-*/
+/**
+ * Plugin Name: BoldGrid Gallery
+ * Plugin URI: http://www.boldgrid.com
+ * Description: Extend WordPress galleries to display masonry gallery and slider gallery
+ * Version: 1.1.2
+ * Author: BoldGrid.com <wpb@boldgrid.com>
+ * Author URI: http://www.boldgrid.com
+ * Text Domain: boldgrid-gallery
+ * Domain Path: /languages
+ * License: GPLv2 or later
+ */
+
+// Prevent direct calls
+if ( ! defined( 'WPINC' ) ) {
+	header( 'Status: 403 Forbidden' );
+	header( 'HTTP/1.1 403 Forbidden' );
+	exit();
+}
+
+// Define Editor version:
+if ( false === defined( 'BOLDGRID_GALLERY_VERSION' ) ) {
+	define( 'BOLDGRID_GALLERY_VERSION', '1.1.2' );
+}
+
+// BoldGrid: Original code is below (lines 29-117).
+/* @formatter:off */
 
 function wc_gallery_using_woocommerce() {
 	return in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) );
@@ -98,3 +115,16 @@ require_once( dirname(__FILE__) . '/includes/functions.php' ); // Adds basic fil
 require_once( dirname(__FILE__) . '/includes/options.php' ); // define options array
 require_once( dirname(__FILE__) . '/includes/scripts.php' ); // Adds plugin JS and CSS
 // require_once( dirname(__FILE__) . '/includes/widgets.php' ); // include any widgets
+
+// BoldGrid:
+/* @formatter:on */
+
+// Define Editor Path.
+if ( false === defined( 'BOLDGRID_GALLERY_PATH' ) ) {
+	define( 'BOLDGRID_GALLERY_PATH', __DIR__ );
+}
+
+// Load boldgrid-gallery.
+require_once BOLDGRID_GALLERY_PATH . '/boldgrid/includes/class-boldgrid-gallery.php'; // Adds Bold Grid Editor Functionality
+$boldgrid_gallery = new Boldgrid_Gallery();
+$boldgrid_gallery->init();

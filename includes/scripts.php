@@ -9,6 +9,16 @@
  * @License: GNU General Public License version 2.0
  * @License URI: http://www.gnu.org/licenses/gpl-2.0.html
  */
+
+/* BEGIN: BoldGrid */
+// Prevent direct calls.
+if ( false === defined( 'WPINC' ) ) {
+	header( 'Status: 403 Forbidden' );
+	header( 'HTTP/1.1 403 Forbidden' );
+	exit();
+}
+/* END: BoldGrid */
+
 if( !function_exists ('wc_gallery_scripts') ) :
 	function wc_gallery_scripts() {
 		$ver = WC_GALLERY_VERSION;

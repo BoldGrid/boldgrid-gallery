@@ -7,19 +7,19 @@ var IMHWPBGallery = IMHWPBGallery  || {};
 ( function( window, views, $ ) {
 	var postID = $( '#post_ID' ).val() || 0,
 		media, gallery;
-	
+
 	var $window = $(window);
-	
+
 	var hide_settings = function ( $context, settings ) {
 		$.each( settings, function () {
 			$context.find( '[data-setting="' + this + '"]' ).closest('.setting').hide();
 		});
 	};
-	
+
 	$(function () {
 		$(document).on('change', '[data-setting="display"]', IMHWPBGallery.gallery_update_visible );
 	});
-	
+
 	media = {
 		state: [],
 
@@ -27,6 +27,7 @@ var IMHWPBGallery = IMHWPBGallery  || {};
 			var media = wp.media[ this.type ],
 				frame = media.edit( text );
 
+			/* jshint -W030 */
 			this.pausePlayers && this.pausePlayers();
 
 			_.each( this.state, function( state ) {
@@ -39,12 +40,12 @@ var IMHWPBGallery = IMHWPBGallery  || {};
 			frame.on( 'close', function() {
 				frame.detach();
 			} );
-			
+
 			frame.open();
 		}
 	};
 
-	gallery = _.extend( {}, media, { 
+	gallery = _.extend( {}, media, {
 		state: [ 'gallery-edit' ],
 		template: wp.media.template( 'editor-gallery' ),
 
@@ -63,16 +64,16 @@ var IMHWPBGallery = IMHWPBGallery  || {};
 			if ( single_image_slider >= 0 ) {
 				type = 'slider';
 			}
-			
-			IMHWPBGallery.gutter_width = '0'
+
+			IMHWPBGallery.gutter_width = '0';
 			if (this.shortcode.attrs.named.gutterwidth) {
 				IMHWPBGallery.gutter_width = this.shortcode.attrs.named.gutterwidth;
 			}
-			
+
 			/**
 			 * For different types of galleries use different templates
 			 */
-			if ( false == type ) {
+			if ( false === type ) {
 				this.template = wp.media.template( 'editor-gallery-boldgrid-masonry' );
 				reverseAttachmentOrder = true;
 			} else {
@@ -98,7 +99,7 @@ var IMHWPBGallery = IMHWPBGallery  || {};
 					default:
 				}
 			}
-			
+
 			var attachments = wp.media.gallery.attachments( this.shortcode, postID ),
 			attrs = this.shortcode.attrs.named,
 			self = this;
@@ -106,7 +107,7 @@ var IMHWPBGallery = IMHWPBGallery  || {};
 			attachments.more()
 			.done( function() {
 				attachments = attachments.toJSON();
-				
+
 				if ( reverseAttachmentOrder ) {
 					attachments.reverse();
 				}
@@ -128,7 +129,7 @@ var IMHWPBGallery = IMHWPBGallery  || {};
 					attachments: attachments,
 					columns: attrs.columns ? parseInt( attrs.columns, 10 ) : wp.media.galleryDefaults.columns
 				} ) );
-				
+
 				//After the markup is renderd, initalize all of the galleries.
 				IMHWPBGallery.init_gallery( self.tiny_mce_iframe );
 			} )
@@ -137,7 +138,7 @@ var IMHWPBGallery = IMHWPBGallery  || {};
 			} );
 		}
 	} );
-	
+
 	views.register( 'gallery', _.extend( {}, gallery ) );
 
 	/**
@@ -149,7 +150,7 @@ var IMHWPBGallery = IMHWPBGallery  || {};
 			if ($container.is(':visible')) {
 				IMHWPBGallery.runMasonry(0, $container);
 			}
-		}
+		};
 
 		//Wait 100 MS before triggering the resize event
 		var timeout;
@@ -158,28 +159,28 @@ var IMHWPBGallery = IMHWPBGallery  || {};
 		  timeout = setTimeout(resize_done , 100);
 		});
 	};
-	
+
 	/**********************************************************************************
-	 * The code below this line has been copied and modified from 
+	 * The code below this line has been copied and modified from
 	 * includes/js/gallery.js
-	 * When these functions are updated in that file, we need to update them here. 
+	 * When these functions are updated in that file, we need to update them here.
 	 * This approach was taken so that we would only be modifying content within ./boldgrid/
-	 * 
+	 *
 	 * Code that was added to these functions is commented with --Bold Grid--
 	 *********************************************************************************/
-	
+
 	var calculateGrid = function($container) {
 		var columns = parseInt( $container.data('columns') );
 		var gutterWidth = $container.data('gutterWidth');
 		var containerWidth = Math.floor($container[0].getBoundingClientRect().width);
-		
+
 		if ( isNaN( gutterWidth ) ) {
 			gutterWidth = 5;
 		}
 		else if ( gutterWidth > 30 || gutterWidth < 0 ) {
 			gutterWidth = 5;
 		}
-		
+
 		if ( columns > 1 ) {
 			if ( containerWidth < 568 ) {
 				columns -= 2;
@@ -187,7 +188,7 @@ var IMHWPBGallery = IMHWPBGallery  || {};
 					columns = 4;
 				}
 			}
-			/* else if ( containerWidth < 768 ) { 
+			/* else if ( containerWidth < 768 ) {
 				columns -= 1;
 			} */
 
@@ -195,7 +196,7 @@ var IMHWPBGallery = IMHWPBGallery  || {};
 				columns = 2;
 			}
 		}
-		
+
 		gutterWidth = parseInt( gutterWidth );
 
 		var allGutters = gutterWidth * ( columns - 1 );
@@ -204,7 +205,7 @@ var IMHWPBGallery = IMHWPBGallery  || {};
 		var columnWidth = Math.floor( contentWidth / columns );
 		return {columnWidth: columnWidth, gutterWidth: gutterWidth, columns: columns};
 	};
-	
+
 	/**
 	 * Update Visible Gallery Items
 	 */
@@ -223,7 +224,7 @@ var IMHWPBGallery = IMHWPBGallery  || {};
 
 	IMHWPBGallery.runMasonry = function( duration, $container) {
 		var $postBox = $container.children('.gallery-item');
-		
+
 		var o = calculateGrid($container);
 		$postBox.css({'width':o.columnWidth+'px', 'margin-bottom':o.gutterWidth+'px', 'padding':'0'});
 
@@ -231,9 +232,9 @@ var IMHWPBGallery = IMHWPBGallery  || {};
 			itemSelector: '.gallery-item',
 			columnWidth: o.columnWidth,
 			gutter: o.gutterWidth,
-			transitionDuration: duration 
+			transitionDuration: duration
 		} );
-	}
+	};
 
 	IMHWPBGallery.init_gallery = function ( $master_container ) {
 		//--Bold Grid--
@@ -242,7 +243,7 @@ var IMHWPBGallery = IMHWPBGallery  || {};
 		$master_container.find('.gallery-masonry').each( function() {
 			var $container = jQuery(this);
 			var $posts = $container.children( '.gallery-item' ).show().css( 'visibility', 'visible' );
-			
+
 			$container.imagesLoaded( function() {
 				IMHWPBGallery.runMasonry( 0, $container );
 				$container.show().css( 'visibility', 'visible' );
@@ -253,9 +254,8 @@ var IMHWPBGallery = IMHWPBGallery  || {};
 				//when dragging window resize
 				on_screen_resize( $container );
 			});
-			
+
 		});
 	};
-	
-	
+
 } )( window, window.wp.mce.views, window.jQuery );

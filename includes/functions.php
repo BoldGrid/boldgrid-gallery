@@ -1,4 +1,13 @@
 <?php
+/* BEGIN: BoldGrid */
+// Prevent direct calls.
+if ( false === defined( 'WPINC' ) ) {
+	header( 'Status: 403 Forbidden' );
+	header( 'HTTP/1.1 403 Forbidden' );
+	exit();
+}
+/* END: BoldGrid */
+
 function wc_gallery_check_supports() {
 	global $wc_gallery_theme_support;
 
@@ -73,7 +82,11 @@ function wc_gallery_shortcode($blank, $attr) {
 		'newtab' => 'false',
 		'class'	     => '',
 		'include'    => '',
-		'exclude'    => ''
+		'exclude'    => '',
+		/* BEGIN: BoldGrid */
+		'reflections'=> 'false',
+		'speed'      => 'normal',
+		/* END: BoldGrid */
 	), $attr, 'gallery'));
 
 	$custom_class = trim( $class );
@@ -142,8 +155,24 @@ function wc_gallery_shortcode($blank, $attr) {
 	if ( ! $customlink )
 		$class[] = "gallery-link-{$link}";
 
+	/* BEGIN: BoldGrid */
+	// Sanatize Speed and Reflections values.
+	if ( $reflections == 'true' ) {
+		wp_enqueue_script( 'boldgrid-gallery-reflection');
+	} else {
+		$reflections = 'false';
+	}
+
+	$speed = sanitize_html_class( $speed );
+	/* END: BoldGrid */
+
 	$sliders = array( 'slider', 'slider2', 'sliderauto', 'carousel', 'slider3bottomlinks', 'slider4bottomlinks' );
 	$owlcarousel = array( 'owlautowidth', 'owlcolumns', 'owlslider' );
+
+	/* BEGIN: BoldGrid */
+	// BoldGrid Filter Slider Types.
+	$sliders = apply_filters( 'boldgrid_gallery_slider_types', $sliders );
+	/* END: BoldGrid */
 
 	if ( get_option( WC_GALLERY_PREFIX . 'enable_image_popup', true ) && 'file' == $link ) {
 		wp_enqueue_script( 'wc-gallery-popup' );
@@ -167,7 +196,11 @@ function wc_gallery_shortcode($blank, $attr) {
 		$output = "";
 
 		$output .= "<div class='".implode( ' ', $wrap_class )."'>";
-		$output .= "<div id='$selector' class='".implode( ' ', $class )."' data-gutter-width='".$gutterwidth."' data-columns='".$columns."' data-hide-controls='".$hidecontrols."'>";
+		//$output .= "<div id='$selector' class='".implode( ' ', $class )."' data-gutter-width='".$gutterwidth."' data-columns='".$columns."' data-hide-controls='".$hidecontrols."'>";
+		/* BEGIN: BoldGrid */
+		// Add data-reflections to output.
+		$output .= "<div id='$selector' class='".implode( ' ', $class )."' data-reflections='" . $reflections . "' data-gutter-width='".$gutterwidth."' data-columns='".$columns."' data-hide-controls='".$hidecontrols."'>";
+		/* END: BoldGrid */
 		$output .= "<ul class='slides'>";
 
 		list( $attachments, $links ) = wc_gallery_seperate_attachments_links( $attachments, $display );
@@ -343,6 +376,68 @@ function wc_gallery_shortcode($blank, $attr) {
 
 		$output .= "</div></div>\n";
 	}
+
+	/* BEGIN: BoldGrid: Coverflow */
+	else if ( 'coverflow' == $display ) {
+		wp_enqueue_script( 'wc-gallery' );
+		wp_enqueue_script( 'boldgrid-gallery-coverflow' );
+
+		//Standardize the speed
+		$valid_speeds = array('slow', 'normal', 'fast');
+		if ( !in_array( $speed, $valid_speeds ) ) {
+			$speed = 'normal';
+		}
+
+		$output = '';
+		$attachment_count = 0;
+		foreach ( $attachments as $id => $attachment ) {
+			if ( ! $img = wp_get_attachment_image_src( $id, $size ) ) {
+				continue;
+			}
+
+			list($src, $width, $height) = $img;
+
+			$image_output = "<img src='" . $src . "'/>";
+			if ( ! empty( $link ) ) {
+				if ( $customlink ) {
+					$url = get_post_meta( $id, _WC_GALLERY_PREFIX . 'custom_image_link', true );
+					$image_output = '<a href="'.$url.'" target="'.$link_target.'">' . $image_output . '</a>';
+
+				}
+				else if ( 'post' === $link ) {
+					$url = get_attachment_link( $id );
+					$image_output = '<a href="'.$url.'" target="'.$link_target.'">' . $image_output . '</a>';
+				}
+				else if ( 'file' === $link ) {
+					$url = wp_get_attachment_url( $id );
+					$image_output = '<a href="'.$url.'" target="'.$link_target.'">' . $image_output . '</a>';
+				}
+			}
+
+			$image_output = "<div class='gallery-icon'>{$image_output}</div>";
+			$output .= $image_output;
+			$attachment_count++;
+		}
+
+
+		$class[] = "wc-gallery-bottomspace-{$bottomspace}";
+		$class[] = "gallery-coverflow";
+
+		$output .= "</div>";
+
+		//Pick the center image, rounding down example: 7 images, select index 3
+		$coverflor_index = 0;
+		if ( $attachment_count > 1 ) {
+			$coverflor_index = floor(($attachment_count - 1) / 2);
+		}
+		$output_wrapper = "<div class='".implode( ' ', $class )."' ".
+			"data-index='{$coverflor_index}' data-speed='{$speed}' data-reflections='{$reflections}'>";
+
+		$output = $output_wrapper . $output;
+
+	}
+	/* END: BoldGrid: Coverflow */
+
 	else {
 		wp_enqueue_script( 'wc-gallery' );
 
@@ -487,7 +582,7 @@ function wc_gallery_get_attachment_link( $id = 0, $size = 'thumbnail', $permalin
  * Outputs a view template which can be used with wp.media.template
  */
 function wc_gallery_print_media_templates() {
-	$display_types = array( 
+	$display_types = array(
 		'masonry' => __( 'Masonry', 'wc_gallery' ),
 		'slider' => __( 'Slider (Fade)', 'wc_gallery' ),
 		'slider2' => __( 'Slider (Slide)', 'wc_gallery' ),
@@ -497,6 +592,11 @@ function wc_gallery_print_media_templates() {
 		'slider3bottomlinks' => __( 'Slider + 3 Bottom Links', 'wc_gallery' ),
 		'slider4bottomlinks' => __( 'Slider + 4 Bottom Links', 'wc_gallery' ),
 	);
+
+	/* BEGIN: BoldGrid: Update display options */
+	$display_types = apply_filters( 'boldgrid_gallery_display_types', $display_types );
+	/* END: BoldGrid: Update display options */
+
 	?>
 	<script type="text/html" id="tmpl-wc-gallery-settings">
 		<label class="setting">
@@ -527,7 +627,7 @@ function wc_gallery_print_media_templates() {
 		</label>
 
 		<?php
-		$captions = array( 
+		$captions = array(
 			'onhover' => __( 'On Image Hover', 'wc_gallery' ),
 			'show' => __( 'Show Below Image', 'wc_gallery' ),
 			'showon' => __( 'Show On Image', 'wc_gallery' ),
@@ -545,7 +645,7 @@ function wc_gallery_print_media_templates() {
 		</label>
 
 		<?php
-		$caption_tags = array( 
+		$caption_tags = array(
 			'p' => __( 'p', 'wc_gallery' ),
 			'h2' => __( 'h2', 'wc_gallery' ),
 			'h3' => __( 'h3', 'wc_gallery' ),
@@ -584,7 +684,7 @@ function wc_gallery_print_media_templates() {
 		</label>
 
 		<?php
-		$space = array( 
+		$space = array(
 			'default' => __( '20px', 'wc_gallery' ),
 			'ten' => __( '10px', 'wc_gallery' ),
 			'five' => __( '5px', 'wc_gallery' ),
@@ -610,6 +710,25 @@ function wc_gallery_print_media_templates() {
 			<input class="newtab" type="checkbox" name="newtab" data-setting="newtab" />
 		</label>
 
+		<?php /* BEGIN: BoldGrid */ ?>
+		<?php
+		$speed = array(
+			'slow' => __( 'Slow', 'wc_gallery' ),
+			'normal' => __( 'Normal', 'wc_gallery' ),
+			'fast' => __( 'Fast', 'wc_gallery' ),
+		);
+		?>
+
+		<label class="setting">
+			<span><?php _e( 'Transition Speed', 'wc_gallery' ); ?></span>
+			<select class="bottomspace" name="speed" data-setting="speed">
+				<?php foreach ( $speed as $key => $value ) : ?>
+					<option value="<?php echo esc_attr( $key ); ?>" <?php selected( $key, 'normal' ); ?>><?php echo esc_html( $value ); ?></option>
+				<?php endforeach; ?>
+			</select>
+		</label>
+		<?php /* END: BoldGrid */ ?>
+
 		<label class="setting">
 			<span><?php _e( 'Class', 'wc_gallery' ); ?></span>
 			<input class="class" type="text" name="class" style="float:left;" data-setting="class" />
@@ -620,38 +739,38 @@ function wc_gallery_print_media_templates() {
 add_action( 'print_media_templates', 'wc_gallery_print_media_templates' );
 
 /**
- * Adds custom fields to attachment page 
- * http://wpengineer.com/2076/add-custom-field-attachment-in-wordpress/ 
+ * Adds custom fields to attachment page
+ * http://wpengineer.com/2076/add-custom-field-attachment-in-wordpress/
  *
- * @param mixed $form_fields 
- * @param mixed $post 
+ * @param mixed $form_fields
+ * @param mixed $post
  * @access public
  * @return void
  */
 function wc_gallery_attachment_fields_to_edit( $form_fields, $post) {
-    $form_fields['wc_gallery_custom_image_link'] = array(  
-        "label" => __( "Link To" ),  
+    $form_fields['wc_gallery_custom_image_link'] = array(
+        "label" => __( "Link To" ),
         "input" => "text",
-        "value" => get_post_meta( $post->ID, _WC_GALLERY_PREFIX . "custom_image_link", true )  
-    );        
-    return $form_fields;  
-}  
-add_filter( "attachment_fields_to_edit", "wc_gallery_attachment_fields_to_edit", null, 2 ); 
+        "value" => get_post_meta( $post->ID, _WC_GALLERY_PREFIX . "custom_image_link", true )
+    );
+    return $form_fields;
+}
+add_filter( "attachment_fields_to_edit", "wc_gallery_attachment_fields_to_edit", null, 2 );
 
 /**
  * Save custom input in media panel to custom field
  * and validate hyperlink inserted.
- * 
- * @param mixed $post 
- * @param mixed $attachment 
+ *
+ * @param mixed $post
+ * @param mixed $attachment
  * @access public
  * @return void
  */
 function wc_gallery_attachment_fields_to_save( $post, $attachment) {
-    if( isset( $attachment['wc_gallery_custom_image_link'] ) ){  
-        update_post_meta( $post['ID'], _WC_GALLERY_PREFIX . 'custom_image_link', esc_url_raw( $attachment['wc_gallery_custom_image_link'] ) );  
-    }  
-    return $post;  
+    if( isset( $attachment['wc_gallery_custom_image_link'] ) ){
+        update_post_meta( $post['ID'], _WC_GALLERY_PREFIX . 'custom_image_link', esc_url_raw( $attachment['wc_gallery_custom_image_link'] ) );
+    }
+    return $post;
 }
 add_filter( "attachment_fields_to_save", "wc_gallery_attachment_fields_to_save", null, 2 );
 
@@ -709,7 +828,7 @@ function wc_gallery_image_size_names_choose( $sizes ) {
 			}
 		}
 	}
- 
+
 	return $sizes;
 }
 add_filter( 'image_size_names_choose', 'wc_gallery_image_size_names_choose', 99 );

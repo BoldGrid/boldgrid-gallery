@@ -1,4 +1,13 @@
 <?php
+/* BEGIN: BoldGrid */
+// Prevent direct calls.
+if ( false === defined( 'WPINC' ) ) {
+	header( 'Status: 403 Forbidden' );
+	header( 'HTTP/1.1 403 Forbidden' );
+	exit();
+}
+/* END: BoldGrid */
+
 function wc_gallery_options( $options ) {
 	global $wc_gallery_theme_support;
 
