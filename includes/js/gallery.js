@@ -7,28 +7,11 @@
 ( function( $ ) {
 	"use strict";
 
-	$.fn.wcGalleryMasonryImagesReveal = function( $items ) {
-		var msnry = this.data('masonry');
-
-		$.each( $items, function( key, item ) {
-			var $item = $(this);
-
-			$item.imagesLoaded().always( function( instance ) {
-				// un-hide item
-				$item.show();
-
-				// masonry does its thing
-				msnry.layout();
-			});
-		});
-
-		return this;
-	};
-
 	var body = $( 'body' ),
 		_window = $( window );
 
 	var calculateGrid = function($container) {
+		var windowWidth = _window.width();
 		var columns = parseInt( $container.data('columns') );
 		var gutterWidth = $container.data('gutterWidth');
 		// need to return exact decimal width
@@ -41,20 +24,8 @@
 			gutterWidth = 5;
 		}
 
-		if ( columns > 1 ) {
-			if ( containerWidth < 568 ) {
-				columns -= 2;
-				if ( columns > 4 ) {
-					columns = 4;
-				}
-			}
-			/* else if ( containerWidth < 768 ) { 
-				columns -= 1;
-			} */
-
-			if ( columns < 2 ) {
-				columns = 2;
-			}
+		if ( windowWidth <= 568 ) {
+			columns = 1
 		}
 
 		gutterWidth = parseInt( gutterWidth );
@@ -67,17 +38,36 @@
 		return {columnWidth: columnWidth, gutterWidth: gutterWidth, columns: columns};
 	}
 
-	var runMasonry = function( duration, $container, $posts ) {
+	var runMasonry = function( duration, $container, $posts, method ) {
 		var o = calculateGrid($container);
 
-		$posts.css({'width':o.columnWidth+'px', 'margin-bottom':o.gutterWidth+'px', 'padding':'0'});
+		if ( o.columns == 1 ) {
+			if ( $container.hasClass('masonry') ) {
+				$container.masonry('destroy');
+			}
 
-		$container = $container.masonry( {
-			itemSelector: '.gallery-item',
-			columnWidth: o.columnWidth,
-			gutter: o.gutterWidth,
-			transitionDuration: duration
-		} );
+			$container.removeAttr("style");
+			$container.children().removeAttr("style");
+			$container.css('height', 'auto');
+
+			return;
+		}
+		else if ( 'layout' == method ) {
+			$container.masonry('layout');
+
+			return;
+		}
+		else {
+			$posts.css({'width':o.columnWidth+'px', 'margin-bottom':o.gutterWidth+'px', 'padding':'0'});
+			$container = $container.masonry( {
+				itemSelector: '.gallery-item',
+				columnWidth: o.columnWidth,
+				gutter: o.gutterWidth,
+				transitionDuration: duration
+			} );
+
+			return;
+		}
 	}
 
 	var initGallery = function() {
@@ -85,54 +75,22 @@
 			var $container = $(this);
 			var $posts = $container.children('.gallery-item');
 
-			$posts.hide();
-
 			// keeps the media elements from calculating for the full width of the post
-			runMasonry(0, $container, $posts);
+			$(document).ready(function(){
+				// we are going to append masonry items as the images load
+				runMasonry(0, $container, $posts, 'masonry');
 
-			// we are going to append masonry items as the images load
-			$container.wcGalleryMasonryImagesReveal( $posts );
+				$container.imagesLoaded().always( function( instance ) {
+					// masonry does its thing
+					runMasonry(0, $container, $posts, 'layout');
+				});
+			});
 
 			$(window).resize(function() {
-				runMasonry(0, $container, $posts);
+				runMasonry(0, $container, $posts, 'masonry');
 			}); 
 
 		});
-
-		/* BEGIN: BoldGrid */
-		if( jQuery().coverflow ) {
-			$('.gallery-coverflow').each( function() {
-				var $this = $(this);
-				$this.hide();
-				imagesLoaded( $this, function() {
-					$this.show();
-					
-					if ( $.fn.reflect && $this.data('reflections') === true ) {
-						$this.find('img').reflect();
-					}
-   
-					var $coverflow = $this.coverflow({
-						index:			$this.data('index'), 
-						density:		2,
-						innerAngle:		0,
-						duration: $this.data('speed'),
-						'confirm' : function (e) {
-							if ( e.currentTarget ) {
-								$(e.currentTarget).find('a').trigger('click');
-							}
-						}
-					});
-				
-					$this.find('a').on("click", function (e) {
-						if ( e.originalEvent ) {
-							e.preventDefault();
-							e.stopPropagation();
-						}
-					});
-				});
-			});
-		}
-		/* END: BoldGrid */
 
 		if( jQuery().magnificPopup) {
 			$('.gallery-link-file').each( function() {
@@ -183,12 +141,6 @@
 				var showNav = hideControls ? false : true;
 				var containerWidth = $this.width();
 
-				/* BEGIN: BoldGrid */
-				if ( $.fn.reflect && $this.find('.gallery').data('reflections') === true ) {
-					$flex.find('img').reflect();
-				}
-				/* END: BoldGrid */
-
 				$this.addClass('wcflexslider-is-active');
 
 				gutterWidth = parseInt( gutterWidth );
@@ -224,18 +176,6 @@
 							animation:"slide"
 						});
 					}
-					/* BEGIN: BoldGrid */
-					else if ( $flex.hasClass('wcsliderfadeauto') ) {
-						$flex.wcflexslider({
-							prevText: "",
-							nextText: "",
-							smoothHeight: true,
-							slideshow: true,
-							directionNav: showNav,
-							animation:"fade"
-						});
-					}
-					/* END: BoldGrid */
 					else if ( $flex.hasClass('wccarousel') ) {
 						$flex.wcflexslider({
 							prevText: "",

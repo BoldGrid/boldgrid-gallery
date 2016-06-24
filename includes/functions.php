@@ -1,14 +1,4 @@
 <?php
-
-/* BEGIN: BoldGrid */
-// Prevent direct calls.
-if ( ! defined( 'WPINC' ) ) {
-	header( 'Status: 403 Forbidden' );
-	header( 'HTTP/1.1 403 Forbidden' );
-	exit();
-}
-/* END: BoldGrid */
-
 function wc_gallery_check_supports() {
 	global $wc_gallery_theme_support;
 
@@ -16,13 +6,30 @@ function wc_gallery_check_supports() {
 		$supports = get_theme_support( 'wpc-gallery' );
 
 		if ( isset( $supports[0] ) && is_array( $supports[0] ) ) {
-			foreach ( $supports[0] as $key => $value ) {
-				$wc_gallery_theme_support[ $key ] = $value;
+			foreach ( $supports[0] as $k => $v ) {
+				if ( is_array( $v ) ) {
+					foreach( $v as $kk => $vv ) {
+						$wc_gallery_theme_support[ $k ][ $kk ] = $vv;
+					}
+				}
+				else {
+					$wc_gallery_theme_support[ $k ] = $v;
+				}
 			}
 		}
 	}
 }
 add_action( 'init', 'wc_gallery_check_supports' );
+
+function wc_gallery_add_action_links( $links ) {
+	return array_merge(
+		array(
+			'settings' => '<a href="' . admin_url( 'themes.php?page=wc-gallery' ) . '">' . __( 'Settings', 'wc-gallery' ) . '</a>'
+		),
+		$links
+	);
+}
+add_filter( 'plugin_action_links_' . WC_GALLERY_PLUGIN_BASENAME, 'wc_gallery_add_action_links' );
 
 /**
  * The Gallery shortcode.
@@ -66,11 +73,7 @@ function wc_gallery_shortcode($blank, $attr) {
 		'newtab' => 'false',
 		'class'	     => '',
 		'include'    => '',
-		'exclude'    => '',
-		/* BEGIN: BoldGrid */
-		'reflections'=> 'false',
-		'speed'      => 'normal',
-		/* END: BoldGrid */
+		'exclude'    => ''
 	), $attr, 'gallery'));
 
 	$custom_class = trim( $class );
@@ -139,25 +142,9 @@ function wc_gallery_shortcode($blank, $attr) {
 	if ( ! $customlink )
 		$class[] = "gallery-link-{$link}";
 
-	/* BEGIN: BoldGrid */
-	// Sanatize Speed and Reflections values.
-	if ( $reflections == 'true' ) {
-		wp_enqueue_script( 'boldgrid-gallery-reflection');
-	} else {
-		$reflections = 'false';
-	}
-	
-	$speed = sanitize_html_class( $speed );
-	/* END: BoldGrid */
-	
 	$sliders = array( 'slider', 'slider2', 'sliderauto', 'carousel', 'slider3bottomlinks', 'slider4bottomlinks' );
 	$owlcarousel = array( 'owlautowidth', 'owlcolumns', 'owlslider' );
 
-	/* BEGIN: BoldGrid */
-	// BoldGrid Filter Slider Types.
-	$sliders = apply_filters( 'boldgrid_gallery_slider_types', $sliders );
-	/* END: BoldGrid */
-	
 	if ( get_option( WC_GALLERY_PREFIX . 'enable_image_popup', true ) && 'file' == $link ) {
 		wp_enqueue_script( 'wc-gallery-popup' );
 	}
@@ -180,11 +167,7 @@ function wc_gallery_shortcode($blank, $attr) {
 		$output = "";
 
 		$output .= "<div class='".implode( ' ', $wrap_class )."'>";
-		// $output .= "<div id='$selector' class='".implode( ' ', $class )."' data-gutter-width='".$gutterwidth."' data-columns='".$columns."' data-hide-controls='".$hidecontrols."'>";
-		/* BEGIN: BoldGrid */
-		// Add data-reflections to output.
-		$output .= "<div id='$selector' class='".implode( ' ', $class )."' data-reflections='" . $reflections . "' data-gutter-width='".$gutterwidth."' data-columns='".$columns."' data-hide-controls='".$hidecontrols."'>";
-		/* END: BoldGrid */
+		$output .= "<div id='$selector' class='".implode( ' ', $class )."' data-gutter-width='".$gutterwidth."' data-columns='".$columns."' data-hide-controls='".$hidecontrols."'>";
 		$output .= "<ul class='slides'>";
 
 		list( $attachments, $links ) = wc_gallery_seperate_attachments_links( $attachments, $display );
@@ -360,68 +343,6 @@ function wc_gallery_shortcode($blank, $attr) {
 
 		$output .= "</div></div>\n";
 	}
-	
-	/* BEGIN: BoldGrid: Coverflow */
-	else if ( 'coverflow' == $display ) {
-		wp_enqueue_script( 'wc-gallery' );
-		wp_enqueue_script( 'boldgrid-gallery-coverflow' );
-	
-		//Standardize the speed
-		$valid_speeds = array('slow', 'normal', 'fast');
-		if ( !in_array( $speed, $valid_speeds ) ) {
-			$speed = 'normal';
-		}
-	
-		$output = '';
-		$attachment_count = 0;
-		foreach ( $attachments as $id => $attachment ) {
-			if ( ! $img = wp_get_attachment_image_src( $id, $size ) ) {
-				continue;
-			}
-				
-			list($src, $width, $height) = $img;
-	
-			$image_output = "<img src='" . $src . "'/>";
-			if ( ! empty( $link ) ) {
-				if ( $customlink ) {
-					$url = get_post_meta( $id, _WC_GALLERY_PREFIX . 'custom_image_link', true );
-					$image_output = '<a href="'.$url.'" target="'.$link_target.'">' . $image_output . '</a>';
-	
-				}
-				else if ( 'post' === $link ) {
-					$url = get_attachment_link( $id );
-					$image_output = '<a href="'.$url.'" target="'.$link_target.'">' . $image_output . '</a>';
-				}
-				else if ( 'file' === $link ) {
-					$url = wp_get_attachment_url( $id );
-					$image_output = '<a href="'.$url.'" target="'.$link_target.'">' . $image_output . '</a>';
-				}
-			}
-				
-			$image_output = "<div class='gallery-icon'>{$image_output}</div>";
-			$output .= $image_output;
-			$attachment_count++;
-		}
-	
-	
-		$class[] = "wc-gallery-bottomspace-{$bottomspace}";
-		$class[] = "gallery-coverflow";
-	
-		$output .= "</div>";
-	
-		//Pick the center image, rounding down example: 7 images, select index 3
-		$coverflor_index = 0;
-		if ( $attachment_count > 1 ) {
-			$coverflor_index = floor(($attachment_count - 1) / 2);
-		}
-		$output_wrapper = "<div class='".implode( ' ', $class )."' ".
-			"data-index='{$coverflor_index}' data-speed='{$speed}' data-reflections='{$reflections}'>";
-	
-		$output = $output_wrapper . $output;
-	
-	}
-	/* BEGIN: BoldGrid: Coverflow */
-	
 	else {
 		wp_enqueue_script( 'wc-gallery' );
 
@@ -573,15 +494,9 @@ function wc_gallery_print_media_templates() {
 		'sliderauto' => __( 'Slider (Auto Start)', 'wc_gallery' ),
 		'owlautowidth' => __( 'Owl Carousel (Auto Width)', 'wc_gallery' ),
 		'owlcolumns' => __( 'Owl Carousel (Columns)', 'wc_gallery' ),
-		'carousel' => __( 'Carousel (Deprecated)', 'wc_gallery' ),
 		'slider3bottomlinks' => __( 'Slider + 3 Bottom Links', 'wc_gallery' ),
 		'slider4bottomlinks' => __( 'Slider + 4 Bottom Links', 'wc_gallery' ),
 	);
-	
-	/* BEGIN: BoldGrid: Update display options */
-	$display_types = apply_filters( 'boldgrid_gallery_display_types', $display_types );
-	/* END: BoldGrid: Update display options */
-	
 	?>
 	<script type="text/html" id="tmpl-wc-gallery-settings">
 		<label class="setting">
@@ -696,30 +611,6 @@ function wc_gallery_print_media_templates() {
 		</label>
 
 		<label class="setting">
-			<span><?php _e( 'Reflections', 'wc_gallery' ); ?></span>
-			<input class="newtab" type="checkbox" name="reflections" data-setting="reflections" />
-		</label>
-
-		<?php /* BEGIN: BoldGrid */ ?>
-		<?php
-		$speed = array( 
-			'slow' => __( 'Slow', 'wc_gallery' ),
-			'normal' => __( 'Normal', 'wc_gallery' ),
-			'fast' => __( 'Fast', 'wc_gallery' ),
-		);
-		?>
-
-		<label class="setting">
-			<span><?php _e( 'Transition Speed', 'wc_gallery' ); ?></span>
-			<select class="bottomspace" name="speed" data-setting="speed">
-				<?php foreach ( $speed as $key => $value ) : ?>
-					<option value="<?php echo esc_attr( $key ); ?>" <?php selected( $key, 'normal' ); ?>><?php echo esc_html( $value ); ?></option>
-				<?php endforeach; ?>
-			</select>
-		</label>
-		<?php /* END: BoldGrid */ ?>
-
-		<label class="setting">
 			<span><?php _e( 'Class', 'wc_gallery' ); ?></span>
 			<input class="class" type="text" name="class" style="float:left;" data-setting="class" />
 		</label>
@@ -779,11 +670,13 @@ function wc_gallery_after_setup_theme() {
 		$name_w = $size . '_size_w';
 		$name_h = $size . '_size_h';
 		$name_crop = $size . '_crop';
+		$name_enable = $size . '_enable';
 
-		$width = get_option( WC_GALLERY_PREFIX . $name_w );
-		$height = get_option( WC_GALLERY_PREFIX . $name_h );
-		$crop = get_option( WC_GALLERY_PREFIX . $name_crop );
-		if ( $width && $height ) {
+		$width = get_option( WC_GALLERY_PREFIX . $name_w, $value['size_w'] );
+		$height = get_option( WC_GALLERY_PREFIX . $name_h, $value['size_h'] );
+		$crop = get_option( WC_GALLERY_PREFIX . $name_crop, $value['crop'] );
+		$enable = get_option( WC_GALLERY_PREFIX . $name_enable, $value['enable'] );
+		if ( $enable && $width && $height ) {
 			$crop = $crop ? true : false;
 			add_image_size( 'wc' . $size, $width, $height, $crop );
 		}

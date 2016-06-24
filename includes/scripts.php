@@ -1,18 +1,9 @@
 <?php
-/* BEGIN: BoldGrid */
-// Prevent direct calls.
-if ( ! defined( 'WPINC' ) ) {
-	header( 'Status: 403 Forbidden' );
-	header( 'HTTP/1.1 403 Forbidden' );
-	exit();
-}
-/* END: BoldGrid */
-
 /**
  * This file loads the CSS and JS necessary for your shortcodes display
- * @package wc Shortcodes Plugin
+ * @package WC Shortcodes Plugin
  * @since 1.0
- * @author AJ Clarke : http://wpexplorer.com
+ * @author Chris Baldelomar : http://webplantmedia.com
  * @copyright Copyright (c) 2012, AJ Clarke
  * @link http://wpexplorer.com
  * @License: GNU General Public License version 2.0
@@ -33,19 +24,19 @@ if( !function_exists ('wc_gallery_scripts') ) :
 		wp_enqueue_script( 'jquery-masonry' );
 
 		// images loaded
-		wp_register_script( 'wordpresscanvas-imagesloaded', plugin_dir_url( __FILE__ ) . 'js/imagesloaded.pkgd.min.js', array (), '3.1.8', true );
+		wp_register_script( 'wordpresscanvas-imagesloaded', plugin_dir_url( __FILE__ ) . 'js/imagesloaded.pkgd.min.js', array (), '4.1.0', true );
 
 		if ( get_option( WC_GALLERY_PREFIX . 'enable_image_popup', true ) ) {
-			wp_enqueue_style( 'wc-gallery-popup-style', plugin_dir_url( __FILE__ ) . 'css/magnific-popup.css', array( ), '0.9.9' );
-			wp_register_script( 'wc-gallery-popup', plugin_dir_url( __FILE__ ) . 'js/jquery.magnific-popup.min.js', array ( 'jquery' ), '0.9.9', true );
+			wp_enqueue_style( 'wc-gallery-popup-style', plugin_dir_url( __FILE__ ) . 'css/magnific-popup.css', array( ), '1.1.0' );
+			wp_register_script( 'wc-gallery-popup', plugin_dir_url( __FILE__ ) . 'js/jquery.magnific-popup.min.js', array ( 'jquery' ), '1.1.0', true );
 		}
 
 		// Gallery Shortcode
-		wp_enqueue_style( 'wc-gallery-flexslider-style', plugin_dir_url( __FILE__ ) . 'vendors/flexslider/flexslider.css', array( ), '2.5.0' );
-		wp_enqueue_style( 'wc-gallery-owlcarousel-style', plugin_dir_url( __FILE__ ) . 'vendors/owlcarousel/assets/owl.carousel.css', array( ), '2.0.0-beta.3.0' );
-		wp_enqueue_style( 'wc-gallery-owlcarousel-theme-style', plugin_dir_url( __FILE__ ) . 'vendors/owlcarousel/assets/owl.theme.default.css', array( ), '2.0.0-beta.3.0' );
-		wp_register_script( 'wc-gallery-flexslider', plugin_dir_url( __FILE__ ) . 'vendors/flexslider/jquery.flexslider-min.js', array ( 'jquery' ), '2.5', true );
-		wp_register_script( 'wc-gallery-owlcarousel', plugin_dir_url( __FILE__ ) . 'vendors/owlcarousel/owl.carousel.min.js', array ( 'jquery' ), '2.0.0-beta.3.0', true );
+		wp_enqueue_style( 'wc-gallery-flexslider-style', plugin_dir_url( __FILE__ ) . 'vendors/flexslider/flexslider.css', array( ), '2.6.1' );
+		wp_enqueue_style( 'wc-gallery-owlcarousel-style', plugin_dir_url( __FILE__ ) . 'vendors/owlcarousel/assets/owl.carousel.css', array( ), '2.1.4' );
+		wp_enqueue_style( 'wc-gallery-owlcarousel-theme-style', plugin_dir_url( __FILE__ ) . 'vendors/owlcarousel/assets/owl.theme.default.css', array( ), '2.1.4' );
+		wp_register_script( 'wc-gallery-flexslider', plugin_dir_url( __FILE__ ) . 'vendors/flexslider/jquery.flexslider-min.js', array ( 'jquery' ), '2.6.1', true );
+		wp_register_script( 'wc-gallery-owlcarousel', plugin_dir_url( __FILE__ ) . 'vendors/owlcarousel/owl.carousel.min.js', array ( 'jquery' ), '2.1.4', true );
 		wp_register_script( 'wc-gallery', plugin_dir_url( __FILE__ ) . 'js/gallery.js', array ( 'jquery', 'wordpresscanvas-imagesloaded' ), $ver, true );
 		wp_register_script( 'wc-gallery-woocommerce-product', plugin_dir_url( __FILE__ ) . 'js/woocommerce.product.js', array( 'jquery' ), $ver, true );
 

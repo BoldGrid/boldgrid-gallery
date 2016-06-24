@@ -17,17 +17,10 @@
 	overflow: hidden;
 }
 .wc-gallery .gallery.gallery-masonry {
+	height: 0;
 }
 .wc-gallery .gallery.gallery-masonry .gallery-item {
-	display: none;
 }
-
-/** BoldGrid */
-.mce-content-body .wc-gallery .gallery.gallery-masonry .gallery-item {
-	display: block;
-}
-/**/
-
 .wc-gallery .gallery.gallery-masonry,
 .wc-gallery .gallery.gallery-default {
 }
@@ -53,11 +46,13 @@
 .wc-gallery .gallery.gallery-default .gallery-item {
 }
 
+.wc-gallery .gallery.gallery-masonry .gallery-item {
+	margin-bottom: 1.5em;
+}
 .wc-gallery .gallery-item {
 	float: left; /* added this so images don't stack before masonry kicks in */
 	margin: 0;
 	position: relative;
-	/* margin-bottom: 5px; */
 	max-width: none !important;
 }
 
@@ -158,8 +153,15 @@
 }
 
 @media screen and (max-width: 568px) {
-	body .wc-gallery .gallery-caption {
-		display: none;
+	body .wc-gallery-captions-onpopup .gallery-caption,
+	body .wc-gallery-captions-showon .gallery-caption,
+	body .wc-gallery-captions-onhover .gallery-caption {
+		position: static;
+		opacity: 1;
+		-moz-transform: translate(0, 0);
+		-ms-transform: translate(0, 0);
+		-webkit-transform: translate(0, 0);
+		transform: translate(0, 0);
 	}
 	body .wc-gallery .wc-image-links .gallery-caption {
 		display: block;
@@ -325,30 +327,4 @@
 }
 body .mfp-arrow:active {
     margin-top: -55px;
-}
-
-/*
- * BoldGrid
- */
-
-.wc-gallery img {
-	cursor: pointer;
-}
-
-.gallery {
-    margin: auto -6px;
-    padding: 6px 0;
-    line-height: 1;
-    overflow-x: hidden;
-}
-
-.wc-gallery .gallery.gallery-masonry {
-	visibility: visible;
-}
-
-.wpview-wrap[data-wpview-type="gallery"] {
-	margin-bottom: 0px;
-}
-.wpview-wrap .gallery .gallery-item {
-	padding: 0px;
 }
