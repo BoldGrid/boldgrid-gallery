@@ -13,33 +13,6 @@
  */
 class Boldgrid_Gallery_Update {
 	/**
-	 * BoldGrid Editor class object.
-	 *
-	 * @var object The BoldGrid Gallery object.
-	 */
-	private $boldgrid_gallery = null;
-
-	/**
-	 * Setter for the BoldGrid Gallery class object.
-	 *
-	 * @param object $boldgrid_gallery The BoldGrid Gallery object.
-	 * @return bool
-	 */
-	private function set_boldgrid_gallery( $boldgrid_gallery ) {
-		$this->boldgrid_gallery = $boldgrid_gallery;
-		return true;
-	}
-
-	/**
-	 * Getter for the BoldGrid Gallery class object.
-	 *
-	 * @return object $this->boldgrid_gallery
-	 */
-	protected function get_boldgrid_gallery() {
-		return $this->boldgrid_gallery;
-	}
-
-	/**
 	 * Constructor.
 	 *
 	 * Add hooks.
@@ -50,9 +23,6 @@ class Boldgrid_Gallery_Update {
 	 * @return null
 	 */
 	public function __construct( $boldgrid_gallery ) {
-		// Set the BoldGrid Gallery class object (used to get configs).
-		$this->set_boldgrid_gallery( $boldgrid_gallery );
-
 		// Only for wp-admin.
 		if ( is_admin() ) {
 			// Get the current WordPress page filename.
@@ -116,12 +86,22 @@ class Boldgrid_Gallery_Update {
 			$version_data = get_transient( 'boldgrid_gallery_version_data' );
 		}
 
-		// Get the BoldGrid Editor class object for getting configs.
-		$boldgrid_gallery = $this->get_boldgrid_gallery();
+		// Set the config class file path.
+		$config_class_path = BOLDGRID_GALLERY_PATH . '/boldgrid/includes/class-boldgrid-gallery-config.php';
+
+		// If the config class file is not readable, then return the current transient.
+		if ( false === is_readable( $config_class_path ) ) {
+			return $transient;
+		}
+
+		// Include the config class.
+		require_once $config_class_path;
+
+		// Instantiate the config class.
+		$boldgrid_gallery_config = new Boldgrid_Gallery_Config();
 
 		// Get configs.
-		$configs = $boldgrid_gallery->get_boldgrid_gallery_config()
-			->get_configs();
+		$configs = $boldgrid_gallery_config->get_configs();
 
 		// Get the installed plugin data.
 		$plugin_data = get_plugin_data( BOLDGRID_GALLERY_PATH . '/wc-gallery.php', false );
@@ -305,5 +285,68 @@ class Boldgrid_Gallery_Update {
 		}
 
 		return $value;
+	}
+
+	/**
+	 * Action to add a filter to check if this plugin should be auto-updated.
+	 *
+	 * @since 1.1.3
+	 */
+	public function wp_update_this_plugin () {
+		// Add filters to modify plugin update transient information.
+		add_filter( 'pre_set_site_transient_update_plugins',
+			array (
+				$this,
+				'custom_plugins_transient_update'
+			)
+		);
+
+		add_filter( 'plugins_api',
+			array (
+				$this,
+				'custom_plugins_transient_update'
+			)
+		);
+
+		add_filter( 'site_transient_update_plugins',
+			array (
+				$this,
+				'site_transient_update_plugins'
+			)
+		);
+
+		add_filter( 'auto_update_plugin',
+			array (
+				$this,
+				'auto_update_this_plugin'
+			), 10, 2
+		);
+
+		add_filter( 'auto_update_plugins',
+			array (
+				$this,
+				'auto_update_this_plugin'
+			), 10, 2
+		);
+
+		// Have WordPress check for plugin updates.
+		wp_maybe_auto_update();
+	}
+
+	/**
+	 * Filter to check if this plugin should be auto-updated.
+	 *
+	 * @since 1.1.3
+	 *
+	 * @param bool $update Whether or not this plugin is set to update.
+	 * @param object $item The plugin transient object.
+	 * @return bool Whether or not to update this plugin.
+	 */
+	public function auto_update_this_plugin ( $update, $item ) {
+		if ( isset( $item->slug['boldgrid-gallery'] ) && isset( $item->autoupdate ) ) {
+			return true;
+		} else {
+			return $update;
+		}
 	}
 }

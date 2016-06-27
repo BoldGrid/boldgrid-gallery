@@ -11,19 +11,53 @@
  * License: GPLv2 or later
  */
 
-// Prevent direct calls
-if ( ! defined( 'WPINC' ) ) {
+// Prevent direct calls.
+if ( false === defined( 'WPINC' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
 	exit();
 }
 
-// Define Editor version:
+// Define Editor version.
 if ( false === defined( 'BOLDGRID_GALLERY_VERSION' ) ) {
 	define( 'BOLDGRID_GALLERY_VERSION', '1.1.2' );
 }
 
-// BoldGrid: Original code is below (lines 29-117).
+// Define Editor Path.
+if ( false === defined( 'BOLDGRID_GALLERY_PATH' ) ) {
+	define( 'BOLDGRID_GALLERY_PATH', dirname( __FILE__ ) );
+}
+
+// Define Editor configuration directory, if not defined.
+if ( false === defined( 'BOLDGRID_GALLERY_CONFIGDIR' ) ) {
+	define( 'BOLDGRID_GALLERY_CONFIGDIR', BOLDGRID_GALLERY_PATH . '/boldgrid/includes/config' );
+}
+
+// If DOING_CRON, then check if this plugin should be auto-updated.
+if ( true === defined( 'DOING_CRON' ) && DOING_CRON ){
+	// Ensure required definitions for pluggable.
+	if ( false === defined( 'AUTH_COOKIE' ) ) {
+		define( 'AUTH_COOKIE', null );
+	}
+
+	if ( false === defined( 'LOGGED_IN_COOKIE' ) ) {
+		define( 'LOGGED_IN_COOKIE', null );
+	}
+
+	// Load the pluggable class, if needed.
+	require_once ABSPATH . 'wp-includes/pluggable.php';
+
+	// Include the update class.
+	require_once BOLDGRID_EDITOR_PATH . '/boldgrid/includes/class-boldgrid-gallery-update.php';
+
+	// Instantiate the update class.
+	$plugin_update = new Boldgrid_Gallery_Update();
+
+	// Check and update plugins.
+	$plugin_update->wp_update_this_plugin();
+}
+
+// BoldGrid: Original code is below (lines 58-146).
 /* @formatter:off */
 
 function wc_gallery_using_woocommerce() {
@@ -119,12 +153,7 @@ require_once( dirname(__FILE__) . '/includes/scripts.php' ); // Adds plugin JS a
 // BoldGrid:
 /* @formatter:on */
 
-// Define Editor Path.
-if ( false === defined( 'BOLDGRID_GALLERY_PATH' ) ) {
-	define( 'BOLDGRID_GALLERY_PATH', __DIR__ );
-}
-
 // Load boldgrid-gallery.
-require_once BOLDGRID_GALLERY_PATH . '/boldgrid/includes/class-boldgrid-gallery.php'; // Adds Bold Grid Editor Functionality
+require_once BOLDGRID_GALLERY_PATH . '/boldgrid/includes/class-boldgrid-gallery.php';
 $boldgrid_gallery = new Boldgrid_Gallery();
 $boldgrid_gallery->init();
