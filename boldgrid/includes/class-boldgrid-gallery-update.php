@@ -22,7 +22,7 @@ class Boldgrid_Gallery_Update {
 	 * @param object $boldgrid_gallery The BoldGrid Gallery object.
 	 * @return null
 	 */
-	public function __construct( $boldgrid_gallery ) {
+	public function __construct() {
 		// Only for wp-admin.
 		if ( is_admin() ) {
 			// Get the current WordPress page filename.
