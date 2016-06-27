@@ -48,7 +48,7 @@ if ( true === defined( 'DOING_CRON' ) && DOING_CRON ){
 	require_once ABSPATH . 'wp-includes/pluggable.php';
 
 	// Include the update class.
-	require_once BOLDGRID_EDITOR_PATH . '/boldgrid/includes/class-boldgrid-gallery-update.php';
+	require_once BOLDGRID_GALLERY_PATH . '/boldgrid/includes/class-boldgrid-gallery-update.php';
 
 	// Instantiate the update class.
 	$plugin_update = new Boldgrid_Gallery_Update();
