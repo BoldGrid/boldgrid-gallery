@@ -19,6 +19,7 @@
 	width: 25%;
 }
 
+.wpview .toolbar div,
 .wpview-wrap .toolbar div {
 	padding: 0;
 }

@@ -70,10 +70,10 @@ var IMHWPBGallery = IMHWPBGallery  || {};
 				IMHWPBGallery.gutter_width = this.shortcode.attrs.named.gutterwidth;
 			}
 
-			/**
-			 * For different types of galleries use different templates
-			 */
-			if ( false === type ) {
+			
+			// For different types of galleries use different templates.
+			// DO NOT CHANGE THIS EQUALS SIGN.
+			if ( false == type ) {
 				this.template = wp.media.template( 'editor-gallery-boldgrid-masonry' );
 				reverseAttachmentOrder = true;
 			} else {
@@ -235,7 +235,7 @@ var IMHWPBGallery = IMHWPBGallery  || {};
 			transitionDuration: duration
 		} );
 	};
-
+	
 	IMHWPBGallery.init_gallery = function ( $master_container ) {
 		//--Bold Grid--
 		//Instead of searching the entire DOM for galleries, only search the iframe
@@ -247,7 +247,6 @@ var IMHWPBGallery = IMHWPBGallery  || {};
 			$container.imagesLoaded( function() {
 				IMHWPBGallery.runMasonry( 0, $container );
 				$container.show().css( 'visibility', 'visible' );
-				$container.wcGalleryMasonryImagesReveal( $posts );
 
 				//--Bold Grid--
 				//This function call was added to prevent resize from being called repeatedly times

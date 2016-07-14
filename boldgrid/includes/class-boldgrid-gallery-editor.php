@@ -81,18 +81,24 @@ class Boldgrid_Gallery_Editor {
 				WC_GALLERY_PLUGIN_URL . 'boldgrid/assets/js/editor.js', array (),
 				BOLDGRID_GALLERY_VERSION, true );
 
+			// Enqueing our own version of masonry due to compat issues in the editor.
+			wp_register_script( 'boldgrid-gallery-masonry',
+				WC_GALLERY_PLUGIN_URL . 'boldgrid/assets/js/masonry/masonry.min.js', array (),
+				BOLDGRID_GALLERY_VERSION, true );
+
 			wp_localize_script( 'boldgrid-gallery', 'BOLDGRIDGallery',
 				$this->display_inputs_invalid_opts );
 			wp_enqueue_script( 'boldgrid-gallery' );
+
 			// Masonry
-			wp_enqueue_script( 'jquery-masonry' );
 			wp_enqueue_script( 'wordpresscanvas-imagesloaded',
-				WC_GALLERY_PLUGIN_URL . 'includes/js/imagesloaded.pkgd.min.js', array (), '3.1.5', true );
+				WC_GALLERY_PLUGIN_URL . 'includes/js/imagesloaded.pkgd.min.js', array (), '4.1.0', true );
 			wp_enqueue_script( 'wc-gallery', WC_GALLERY_PLUGIN_URL . 'includes/js/gallery.js',
 				array (
 					'jquery',
-					'wordpresscanvas-imagesloaded'
-				), '1.1', true );
+					'wordpresscanvas-imagesloaded',
+					'boldgrid-gallery-masonry'
+				), BOLDGRID_GALLERY_VERSION, true );
 		}
 	}
 
