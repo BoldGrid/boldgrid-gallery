@@ -51,8 +51,7 @@ var IMHWPBGallery = IMHWPBGallery  || {};
 
 		initialize: function() {
 			this.tiny_mce_iframe = jQuery(tinymce.activeEditor.iframeElement).contents();
-			var type = '',
-				reverseAttachmentOrder = false;
+			var type = '';
 
 			if ( typeof this.shortcode.attrs.named.display != 'undefined' ) {
 				type = this.shortcode.attrs.named.display;
@@ -75,7 +74,6 @@ var IMHWPBGallery = IMHWPBGallery  || {};
 			// DO NOT CHANGE THIS EQUALS SIGN.
 			if ( false == type ) {
 				this.template = wp.media.template( 'editor-gallery-boldgrid-masonry' );
-				reverseAttachmentOrder = true;
 			} else {
 				switch ( type ) {
 					case 'owlcolumns':
@@ -107,10 +105,6 @@ var IMHWPBGallery = IMHWPBGallery  || {};
 			attachments.more()
 			.done( function() {
 				attachments = attachments.toJSON();
-
-				if ( reverseAttachmentOrder ) {
-					attachments.reverse();
-				}
 
 				_.each( attachments, function( attachment ) {
 					if ( attachment.sizes ) {
@@ -253,8 +247,8 @@ var IMHWPBGallery = IMHWPBGallery  || {};
 				//when dragging window resize
 				on_screen_resize( $container );
 			});
-
 		});
+
 	};
 
 } )( window, window.wp.mce.views, window.jQuery );
