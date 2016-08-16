@@ -46,7 +46,7 @@ if ( empty( $active_tab ) && isset( $_COOKIE[ $cookie_name ] ) && ! empty( $_COO
 		// @section Slug title of the settings section whose fields you want to show. This should match the section ID used in add_settings_section()
 		//do_settings_fields( 'webpm-select-template', 'webpm-template-section' );
 
-		// do_settings_sections( $page ) 
+		// do_settings_sections( $page )
 		// The slug name of the page whose settings sections you want to output. This should match the page name used in add_settings_section()
 		global $wp_settings_sections, $wp_settings_fields;
 

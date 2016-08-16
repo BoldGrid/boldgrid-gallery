@@ -105,7 +105,7 @@ class WC_Gallery_Settings_Framework {
 		$this->plugin_slug = $this->sanitize_id( $plugin_name );
 		$this->plugin_prefix = $this->sanitize_key( $plugin_name ) . '_';
 	}
-	
+
 	public function set_plugin_info() {
 		$this->plugin_current_version = get_option( $this->plugin_prefix . 'current_version' );
 
@@ -151,7 +151,7 @@ class WC_Gallery_Settings_Framework {
 					}
 				}
 			}
-		} 
+		}
 	}
 
 	public function loop_and_init_options( $sections ) {
@@ -423,7 +423,7 @@ class WC_Gallery_Settings_Framework {
 	 * @since 3.5.2
 	 * @access public
 	 *
-	 * @param array $args 
+	 * @param array $args
 	 * @return void
 	 */
 	function display_group( $args ) {
@@ -437,7 +437,7 @@ class WC_Gallery_Settings_Framework {
 	 * @since 3.5.2
 	 * @access public
 	 *
-	 * @param array $args 
+	 * @param array $args
 	 * @return void
 	 */
 	function display_setting( $args ) {
@@ -530,7 +530,7 @@ class WC_Gallery_Settings_Framework {
 	 * @since 3.5.2
 	 * @access public
 	 *
-	 * @param string $type 
+	 * @param string $type
 	 * @return string
 	 */
 	public function sanitize_callback( $type ) {
@@ -570,7 +570,7 @@ class WC_Gallery_Settings_Framework {
 	 * @since 3.6
 	 * @access public
 	 *
-	 * @param array $value 
+	 * @param array $value
 	 * @return array
 	 */
 	public function sanitize_gallery( $value ) {
@@ -597,7 +597,7 @@ class WC_Gallery_Settings_Framework {
 	 * @since 3.6
 	 * @access public
 	 *
-	 * @param array $value 
+	 * @param array $value
 	 * @return array
 	 */
 	public function sanitize_border( $value ) {
@@ -637,7 +637,7 @@ class WC_Gallery_Settings_Framework {
 	 * @since 3.6
 	 * @access public
 	 *
-	 * @param string $value 
+	 * @param string $value
 	 * @return void
 	 */
 	public function sanitize_positive_pixel( $value ) {
@@ -668,7 +668,7 @@ class WC_Gallery_Settings_Framework {
 	 * @since 3.6
 	 * @access public
 	 *
-	 * @param string $value 
+	 * @param string $value
 	 * @return void
 	 */
 	public function sanitize_pixel( $value ) {
@@ -963,7 +963,7 @@ class WC_Gallery_Settings_Framework {
 	 * @since 3.5.2
 	 * @access public
 	 *
-	 * @param string $key 
+	 * @param string $key
 	 * @return string
 	 */
 	public function sanitize_key( $key ) {
@@ -979,7 +979,7 @@ class WC_Gallery_Settings_Framework {
 	 * @since 3.5.2
 	 * @access public
 	 *
-	 * @param string $key 
+	 * @param string $key
 	 * @return string
 	 */
 	public function sanitize_id( $id ) {
@@ -994,7 +994,7 @@ class WC_Gallery_Settings_Framework {
 	 * @since 3.6
 	 * @access public
 	 *
-	 * @param string $number 
+	 * @param string $number
 	 * @return int
 	 */
 	public function sanitize_number( $number ) {
@@ -1019,13 +1019,13 @@ class WC_Gallery_Settings_Framework {
 	}
 
 	/**
-	 * replace space with plus sign. Should be safe enough 
+	 * replace space with plus sign. Should be safe enough
 	 * to use in Google Font stylesheet link
 	 *
 	 * @since 3.5.2
 	 * @access public
 	 *
-	 * @param string $code 
+	 * @param string $code
 	 * @return string
 	 */
 	public function sanitize_google_code( $code ) {
@@ -1041,7 +1041,7 @@ class WC_Gallery_Settings_Framework {
 	 * @since 3.5.2
 	 * @access public
 	 *
-	 * @param string $name 
+	 * @param string $name
 	 * @return string
 	 */
 	public function sanitize_font_family_name( $name ) {
@@ -1056,7 +1056,7 @@ class WC_Gallery_Settings_Framework {
 	 * @since 3.5.2
 	 * @access public
 	 *
-	 * @param string $val 
+	 * @param string $val
 	 * @return void
 	 */
 	public function sanitize_checkbox( $val ) {
@@ -1116,7 +1116,7 @@ class WC_Gallery_Settings_Framework {
 	public function sanitize_esc_url_raw( $value ) {
 		return esc_url_raw( $value );
 	}
-	
+
 	public function sanitize_none( $value ) {
 		return $value;
 	}

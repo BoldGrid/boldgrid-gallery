@@ -69,7 +69,7 @@ var IMHWPBGallery = IMHWPBGallery  || {};
 				IMHWPBGallery.gutter_width = this.shortcode.attrs.named.gutterwidth;
 			}
 
-			
+
 			// For different types of galleries use different templates.
 			// DO NOT CHANGE THIS EQUALS SIGN.
 			if ( false == type ) {
@@ -229,7 +229,7 @@ var IMHWPBGallery = IMHWPBGallery  || {};
 			transitionDuration: duration
 		} );
 	};
-	
+
 	IMHWPBGallery.init_gallery = function ( $master_container ) {
 		//--Bold Grid--
 		//Instead of searching the entire DOM for galleries, only search the iframe

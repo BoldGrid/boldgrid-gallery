@@ -14,7 +14,7 @@
 		if(typeof ids === 'undefined') {
 			return; //<--happens on multi_image insert for modal group
 		}
-	
+
 		var id_array = ids.split(','),
 			args = {orderby: "post__in", order: "ASC", type: "image", perPage: -1, post__in:id_array},
 			attachments = wp.media.query( args ),
@@ -22,8 +22,8 @@
 				props:    attachments.props.toJSON(),
 				multiple: true
 			});
-			
-			
+
+
 		if(options.state === 'gallery-library' && id_array.length &&  !isNaN(parseInt(id_array[0],10))) {
 			options.state = 'gallery-edit';
 		}
@@ -32,7 +32,7 @@
 
 	$body.on('click', '.wpcsf-image-upload', function( event ) {
 		event.preventDefault();
-		
+
 		var clicked = $(this),
 			options = clicked.data(),
 			parent = clicked.parent(),
@@ -47,7 +47,7 @@
 			file_frame[frame_key].open();
 			return;
 		}
-		
+
 		// Create the media frame.
 		file_frame[frame_key]  = wp.media({
 			frame: options.frame,
@@ -98,11 +98,11 @@
 			]);
 		}
 
-		// When an image is selected, run a callback. 
+		// When an image is selected, run a callback.
 		// Bind to various events since single insert and multiple trigger on different events and work with different data
 		file_frame[frame_key].on( 'select update insert', function(e) {
 			var selection, state = file_frame[frame_key].state();
-			
+
 			// multiple items
 			if(typeof e !== 'undefined') {
 				selection = e;
@@ -111,15 +111,15 @@
 			else {
 				selection = state.get('selection');
 			}
-			
+
 			var values , display, element, preview_html= "", preview_img;
-				
+
 			values = selection.map( function( attachment ) {
 				element = attachment.toJSON();
-				
+
 				if ( 'url' === options.fetch ) {
 					display = state.display( attachment ).toJSON();
-					
+
 					if ( 'undefined' === typeof element.sizes ) {
 						preview_img = element.url;
 						preview_html += "<img src='"+preview_img+"' />";
@@ -132,27 +132,27 @@
 						preview_img = element.sizes[display.size].url;
 						preview_html += "<img src='"+preview_img+"' />";
 					}
-					
+
 					return preview_img;
 				}
 				else if(options.fetch === 'id') {
 					preview_img = typeof element.sizes.thumbnail !== 'undefined'  ? element.sizes.thumbnail.url : element.url ;
 					preview_html += "<img src='"+preview_img+"' />";
-					
+
 					return element[options.fetch];
 				}
 				else {
 					return element.url;
 				}
 			});
-			
+
 			if ( target.length ) {
 				target.val( values.join(',') ).trigger('change');
 
 				// triggers change in customizer
 				target.keyup();
 			}
-			
+
 			if ( preview.length ) {
 				preview.html( preview_html ).show();
 			}

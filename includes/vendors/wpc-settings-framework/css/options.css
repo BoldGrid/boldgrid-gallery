@@ -15,7 +15,7 @@
 
 .wpcsf-clearfix { display: inline-block; }
 
-* html .wpcsf-clearfix { 
+* html .wpcsf-clearfix {
 	height: 1%;
 }
 

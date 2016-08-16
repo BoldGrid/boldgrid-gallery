@@ -10,7 +10,7 @@ if ( ! defined( 'WPINC' ) ) {
  		<# if ( data.attachments ) { #>
 			<div class="gallery">
 				<# _.each( data.attachments, function( attachment, index ) { #>
-					
+
 					<# if ( data.attachments.length > 3 && index == 0 ) { #>
 						<div class='one-line-imhwpb'>
 							<dl class="gallery-item single-image-imhwpb">

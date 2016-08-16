@@ -19,7 +19,7 @@
 	 * .interpolate( propertyName, propertyValue [, blend] [, easing] )
 	 * .interpolate( propertyMap [, blend] [, easing] )
 	 */
-	$.fn.interpolate = function(name, value, blend, easing) {		
+	$.fn.interpolate = function(name, value, blend, easing) {
 		var _elem = this[0];
 		if ($.isPlainObject(name)) {
 			easing = blend || 'linear';
@@ -27,7 +27,7 @@
 			$.each(name, function(n, v) {
 				$.Tween(_elem, {duration: 1}, n, v, easing).run(blend);
 			});
-		} else {			
+		} else {
 			blend = blend === undefined ? .5 : blend;
 			$.Tween(_elem, {duration: 1}, name, value, easing || 'linear').run(blend);
 		}

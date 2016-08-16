@@ -36,7 +36,7 @@
 						wpCookies.set( cookieName, target, 7 * 24 * 60 * 60 );
 					}
 				}
-				
+
 				$('.wpcsf-tab-wrap .updated.settings-error').hide();
 
 				return false;
