@@ -3,8 +3,8 @@
 **Contributors:** cbaldelomar  
 **Donate link:** http://webplantmedia.com/pay-now/  
 **Tags:** masonry gallery, pinterest style gallery, pinterest gallery, gallery slider, slider gallery, carousel gallery, carousel, slider  
-**Requires at least:** 3.7  
-**Tested up to:** 4.4.2
+**Requires at least:** 4.3
+**Tested up to:** 4.6
 **Stable tag:** trunk  
 **License:** GPLv2 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html  
@@ -25,7 +25,7 @@ If you need professional plugin support from me, the plugin author, you can cont
 
 ### Plugin Development
 
-If you're a theme author, plugin author, or just a code hobbyist, you can follow the development of this plugin on it's [GitHub repository](https://github.com/webplantmedia/wc-gallery). 
+If you're a theme author, plugin author, or just a code hobbyist, you can follow the development of this plugin on it's [GitHub repository](https://github.com/webplantmedia/wc-gallery).
 
 ### Donations
 
