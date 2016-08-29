@@ -31,6 +31,9 @@ function wc_gallery_check_supports() {
 add_action( 'init', 'wc_gallery_check_supports' );
 
 function wc_gallery_add_action_links( $links ) {
+	/* BEGIN: BoldGrid */
+	return $links;
+	/* END: BoldGrid */
 	return array_merge(
 		array(
 			'settings' => '<a href="' . admin_url( 'themes.php?page=wc-gallery' ) . '">' . __( 'Settings', 'wc-gallery' ) . '</a>'
