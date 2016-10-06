@@ -35,12 +35,6 @@
 
 		var columnWidth = Math.floor( contentWidth / columns );
 
-		/* BEGIN: BoldGrid */
-		if ( columnWidth < 0 ) {
-			columnWidth = 234;
-		}
-		/* END: BoldGrid */
-
 		return {columnWidth: columnWidth, gutterWidth: gutterWidth, columns: columns};
 	}
 
