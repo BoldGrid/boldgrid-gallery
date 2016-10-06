@@ -37,7 +37,7 @@
 
 		/* BEGIN: BoldGrid */
 		if ( columnWidth < 0 ) {
-			columnWidth = 0;
+			columnWidth = 234;
 		}
 		/* END: BoldGrid */
 
