@@ -12,6 +12,10 @@ BoldGrid Gallery is a standalone plugin used for slideshows and galleries.
 
 BoldGrid Gallery is a standalone plugin used for slideshows and galleries.
 
+== Requirements ==
+
+* PHP 5.3 or higher.
+
 == Installation ==
 
 1. Upload the entire boldgrid-gallery folder to the /wp-content/plugins/ directory.
@@ -19,6 +23,9 @@ BoldGrid Gallery is a standalone plugin used for slideshows and galleries.
 2. Activate the plugin through the Plugins menu in WordPress.
 
 == Changelog ==
+
+= 1.3.1 In progress =
+* Misc:			JIRA WPB-2503	Added plugin requirements to readme.txt file.
 
 = 1.3 =
 * Update:						Bump Version.
