@@ -4,7 +4,7 @@
 **Donate link:** http://webplantmedia.com/pay-now/  
 **Tags:** masonry gallery, pinterest style gallery, pinterest gallery, gallery slider, slider gallery, carousel gallery, carousel, slider  
 **Requires at least:** 4.3
-**Tested up to:** 4.6.1
+**Tested up to:** 4.7
 **Stable tag:** trunk  
 **License:** GPLv2 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html  
