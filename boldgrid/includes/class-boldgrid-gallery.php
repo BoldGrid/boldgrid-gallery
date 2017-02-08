@@ -10,7 +10,6 @@
  *
  */
 
-// Prevent direct calls
 if ( ! defined( 'WPINC' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
@@ -91,13 +90,7 @@ class Boldgrid_Gallery {
 
 		$this->set_boldgrid_gallery_config( $boldgrid_gallery_config );
 
-		// Add an action to load this plugin on init, only in the dashboard.
-		if ( is_admin() ) {
-			add_action( 'init', array (
-				$this,
-				'load_boldgrid_gallery_update'
-			) );
-		}
+		$this->prepare_plugin_update();
 	}
 
 	/**
@@ -130,16 +123,6 @@ class Boldgrid_Gallery {
 					'register_frontend_scripts'
 				) );
 		}
-	}
-
-	/**
-	 * Load the Boldgrid_Gallery_Update class
-	 */
-	public function load_boldgrid_gallery_update() {
-		// Load and check for plugin updates:
-		require_once BOLDGRID_GALLERY_PATH . '/boldgrid/includes/class-boldgrid-gallery-update.php';
-
-		$boldgrid_gallery_update = new Boldgrid_Gallery_Update( $this );
 	}
 
 	/**
@@ -217,5 +200,26 @@ class Boldgrid_Gallery {
 	 */
 	public function load_includes() {
 		require_once BOLDGRID_GALLERY_PATH . '/boldgrid/includes/class-boldgrid-gallery-editor.php';
+	}
+
+	/**
+	 * Prepare for the update class.
+	 *
+	 * @since 1.3.1
+	 */
+	public function prepare_plugin_update() {
+		$is_cron = ( defined( 'DOING_CRON' ) && DOING_CRON );
+		$is_wpcli = ( defined( 'WP_CLI' ) && WP_CLI );
+
+		if ( $is_cron || $is_wpcli || is_admin() ) {
+			require_once BOLDGRID_GALLERY_PATH . '/boldgrid/includes/class-boldgrid-gallery-update.php';
+
+			$plugin_update = new Boldgrid_Gallery_Update( $this->boldgrid_gallery_config->get_configs() );
+
+			add_action( 'init', array (
+				$plugin_update,
+				'add_hooks'
+			) );
+		}
 	}
 }

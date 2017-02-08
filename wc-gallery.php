@@ -12,52 +12,28 @@
  */
 
 // Prevent direct calls.
-if ( false === defined( 'WPINC' ) ) {
+if ( ! defined( 'WPINC' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
 	exit();
 }
 
 // Define Editor version.
-if ( false === defined( 'BOLDGRID_GALLERY_VERSION' ) ) {
+if ( ! defined( 'BOLDGRID_GALLERY_VERSION' ) ) {
 	define( 'BOLDGRID_GALLERY_VERSION', implode( get_file_data( __FILE__, array( 'Version' ), 'plugin' ) ) );
 }
 
 // Define Editor Path.
-if ( false === defined( 'BOLDGRID_GALLERY_PATH' ) ) {
+if ( ! defined( 'BOLDGRID_GALLERY_PATH' ) ) {
 	define( 'BOLDGRID_GALLERY_PATH', dirname( __FILE__ ) );
 }
 
 // Define Editor configuration directory, if not defined.
-if ( false === defined( 'BOLDGRID_GALLERY_CONFIGDIR' ) ) {
+if ( ! defined( 'BOLDGRID_GALLERY_CONFIGDIR' ) ) {
 	define( 'BOLDGRID_GALLERY_CONFIGDIR', BOLDGRID_GALLERY_PATH . '/boldgrid/includes/config' );
 }
 
-// If DOING_CRON, then check if this plugin should be auto-updated.
-if ( true === defined( 'DOING_CRON' ) && DOING_CRON ){
-	// Ensure required definitions for pluggable.
-	if ( false === defined( 'AUTH_COOKIE' ) ) {
-		define( 'AUTH_COOKIE', null );
-	}
-
-	if ( false === defined( 'LOGGED_IN_COOKIE' ) ) {
-		define( 'LOGGED_IN_COOKIE', null );
-	}
-
-	// Load the pluggable class, if needed.
-	require_once ABSPATH . 'wp-includes/pluggable.php';
-
-	// Include the update class.
-	require_once BOLDGRID_GALLERY_PATH . '/boldgrid/includes/class-boldgrid-gallery-update.php';
-
-	// Instantiate the update class.
-	$plugin_update = new Boldgrid_Gallery_Update();
-
-	// Check and update plugins.
-	$plugin_update->wp_update_this_plugin();
-}
-
-// BoldGrid: Original code is below (lines 58-146).
+// BoldGrid: Original code is below (lines 39-126).
 /* @formatter:off */
 
 function wc_gallery_using_woocommerce() {
