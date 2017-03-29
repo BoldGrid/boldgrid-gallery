@@ -1,14 +1,16 @@
 <?php
 /**
  * Plugin Name: BoldGrid Gallery
- * Plugin URI: http://www.boldgrid.com
+ * Plugin URI:  https://www.boldgrid.com
  * Description: Extend WordPress galleries to display masonry gallery and slider gallery
- * Version: 1.4
- * Author: BoldGrid.com <wpb@boldgrid.com>
- * Author URI: http://www.boldgrid.com
+ * Version:     1.4
+ * Author:      BoldGrid <support@boldgrid.com>
+ * Author URI:  https://www.boldgrid.com
  * Text Domain: boldgrid-gallery
  * Domain Path: /languages
- * License: GPLv2 or later
+ * License:     GPL-2.0+
+ * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
+ * @package     boldgrid-inspirations
  */
 
 // Prevent direct calls.
