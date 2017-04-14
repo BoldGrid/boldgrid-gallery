@@ -1,7 +1,7 @@
 <?php
 /* BEGIN: BoldGrid */
 // Prevent direct calls.
-if ( false === defined( 'WPINC' ) ) {
+if ( ! defined( 'WPINC' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
 	exit();
@@ -570,7 +570,7 @@ function wc_gallery_get_attachment_link( $id = 0, $size = 'thumbnail', $permalin
 	if ( $text )
 		$link_text = $text;
 	elseif ( $size && 'none' != $size )
-		$link_text = wp_get_attachment_image( $id, $size, $icon );
+		$link_text = wp_get_attachment_image( $id, $size, $icon, array( 'data-attachment-id' => $id ) );
 	else
 		$link_text = '';
 

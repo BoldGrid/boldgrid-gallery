@@ -42,6 +42,7 @@ function wc_gallery_options( $options ) {
 										'label' => 'Max Width',
 										'default' => $wc_gallery_theme_support['icon']['size_w'],
 										'type' => 'positive_number',
+										'theme_reset' => true,
 									),
 									array(
 										'option_name' => 'icon_size_h',
@@ -49,6 +50,7 @@ function wc_gallery_options( $options ) {
 										'default' => $wc_gallery_theme_support['icon']['size_h'],
 										'type' => 'positive_number',
 										'newline' => true,
+										'theme_reset' => true,
 									),
 									array(
 										'option_name' => 'icon_crop',
@@ -57,6 +59,7 @@ function wc_gallery_options( $options ) {
 										'description' => '',
 										'type' => 'checkbox',
 										'newline' => true,
+										'theme_reset' => true,
 									),
 									array(
 										'option_name' => 'icon_enable',
@@ -64,6 +67,7 @@ function wc_gallery_options( $options ) {
 										'default' => $wc_gallery_theme_support['icon']['enable'],
 										'description' => '',
 										'type' => 'checkbox',
+										'theme_reset' => true,
 									),
 								),
 							),
@@ -78,6 +82,7 @@ function wc_gallery_options( $options ) {
 										'default' => $wc_gallery_theme_support['square']['size_w'],
 										'type' => 'positive_number',
 										'less' => true,
+										'theme_reset' => true,
 									),
 									array(
 										'option_name' => 'square_size_h',
@@ -86,6 +91,7 @@ function wc_gallery_options( $options ) {
 										'type' => 'positive_number',
 										'less' => true,
 										'newline' => true,
+										'theme_reset' => true,
 									),
 									array(
 										'option_name' => 'square_crop',
@@ -94,6 +100,7 @@ function wc_gallery_options( $options ) {
 										'description' => '',
 										'type' => 'checkbox',
 										'newline' => true,
+										'theme_reset' => true,
 									),
 									array(
 										'option_name' => 'square_enable',
@@ -101,6 +108,7 @@ function wc_gallery_options( $options ) {
 										'default' => $wc_gallery_theme_support['square']['enable'],
 										'description' => '',
 										'type' => 'checkbox',
+										'theme_reset' => true,
 									),
 								),
 							),
@@ -114,6 +122,7 @@ function wc_gallery_options( $options ) {
 										'label' => 'Max Width',
 										'default' => $wc_gallery_theme_support['small']['size_w'],
 										'type' => 'positive_number',
+										'theme_reset' => true,
 									),
 									array(
 										'option_name' => 'small_size_h',
@@ -121,6 +130,7 @@ function wc_gallery_options( $options ) {
 										'default' => $wc_gallery_theme_support['small']['size_h'],
 										'type' => 'positive_number',
 										'newline' => true,
+										'theme_reset' => true,
 									),
 									array(
 										'option_name' => 'small_enable',
@@ -128,6 +138,7 @@ function wc_gallery_options( $options ) {
 										'default' => $wc_gallery_theme_support['small']['enable'],
 										'description' => '',
 										'type' => 'checkbox',
+										'theme_reset' => true,
 									),
 								),
 							),
@@ -141,6 +152,7 @@ function wc_gallery_options( $options ) {
 										'label' => 'Max Width',
 										'default' => $wc_gallery_theme_support['standard']['size_w'],
 										'type' => 'positive_number',
+										'theme_reset' => true,
 									),
 									array(
 										'option_name' => 'standard_size_h',
@@ -148,6 +160,7 @@ function wc_gallery_options( $options ) {
 										'default' => $wc_gallery_theme_support['standard']['size_h'],
 										'type' => 'positive_number',
 										'newline' => true,
+										'theme_reset' => true,
 									),
 									array(
 										'option_name' => 'standard_enable',
@@ -155,6 +168,7 @@ function wc_gallery_options( $options ) {
 										'default' => $wc_gallery_theme_support['standard']['enable'],
 										'description' => '',
 										'type' => 'checkbox',
+										'theme_reset' => true,
 									),
 								),
 							),
@@ -168,6 +182,7 @@ function wc_gallery_options( $options ) {
 										'label' => 'Max Width',
 										'default' => $wc_gallery_theme_support['big']['size_w'],
 										'type' => 'positive_number',
+										'theme_reset' => true,
 									),
 									array(
 										'option_name' => 'big_size_h',
@@ -175,6 +190,7 @@ function wc_gallery_options( $options ) {
 										'default' => $wc_gallery_theme_support['big']['size_h'],
 										'type' => 'positive_number',
 										'newline' => true,
+										'theme_reset' => true,
 									),
 									array(
 										'option_name' => 'big_enable',
@@ -182,6 +198,7 @@ function wc_gallery_options( $options ) {
 										'default' => $wc_gallery_theme_support['big']['enable'],
 										'description' => '',
 										'type' => 'checkbox',
+										'theme_reset' => true,
 									),
 								),
 							),
@@ -195,6 +212,7 @@ function wc_gallery_options( $options ) {
 										'label' => 'Max Width',
 										'default' => $wc_gallery_theme_support['fixedheightsmall']['size_w'],
 										'type' => 'positive_number',
+										'theme_reset' => true,
 									),
 									array(
 										'option_name' => 'fixedheightsmall_size_h',
@@ -202,6 +220,7 @@ function wc_gallery_options( $options ) {
 										'default' => $wc_gallery_theme_support['fixedheightsmall']['size_h'],
 										'type' => 'positive_number',
 										'newline' => true,
+										'theme_reset' => true,
 									),
 									array(
 										'option_name' => 'fixedheightsmall_enable',
@@ -209,6 +228,7 @@ function wc_gallery_options( $options ) {
 										'default' => $wc_gallery_theme_support['fixedheightsmall']['enable'],
 										'description' => '',
 										'type' => 'checkbox',
+										'theme_reset' => true,
 									),
 								),
 							),
@@ -222,6 +242,7 @@ function wc_gallery_options( $options ) {
 										'label' => 'Max Width',
 										'default' => $wc_gallery_theme_support['fixedheightmedium']['size_w'],
 										'type' => 'positive_number',
+										'theme_reset' => true,
 									),
 									array(
 										'option_name' => 'fixedheightmedium_size_h',
@@ -229,6 +250,7 @@ function wc_gallery_options( $options ) {
 										'default' => $wc_gallery_theme_support['fixedheightmedium']['size_h'],
 										'type' => 'positive_number',
 										'newline' => true,
+										'theme_reset' => true,
 									),
 									array(
 										'option_name' => 'fixedheightmedium_enable',
@@ -236,6 +258,7 @@ function wc_gallery_options( $options ) {
 										'default' => $wc_gallery_theme_support['fixedheightmedium']['enable'],
 										'description' => '',
 										'type' => 'checkbox',
+										'theme_reset' => true,
 									),
 								),
 							),
@@ -249,6 +272,7 @@ function wc_gallery_options( $options ) {
 										'label' => 'Max Width',
 										'default' => $wc_gallery_theme_support['fixedheight']['size_w'],
 										'type' => 'positive_number',
+										'theme_reset' => true,
 									),
 									array(
 										'option_name' => 'fixedheight_size_h',
@@ -256,6 +280,7 @@ function wc_gallery_options( $options ) {
 										'default' => $wc_gallery_theme_support['fixedheight']['size_h'],
 										'type' => 'positive_number',
 										'newline' => true,
+										'theme_reset' => true,
 									),
 									array(
 										'option_name' => 'fixedheight_enable',
@@ -263,6 +288,7 @@ function wc_gallery_options( $options ) {
 										'default' => $wc_gallery_theme_support['fixedheight']['enable'],
 										'description' => '',
 										'type' => 'checkbox',
+										'theme_reset' => true,
 									),
 								),
 							),
@@ -276,6 +302,7 @@ function wc_gallery_options( $options ) {
 										'label' => 'Max Width',
 										'default' => $wc_gallery_theme_support['carouselsmall']['size_w'],
 										'type' => 'positive_number',
+										'theme_reset' => true,
 									),
 									array(
 										'option_name' => 'carouselsmall_size_h',
@@ -283,6 +310,7 @@ function wc_gallery_options( $options ) {
 										'default' => $wc_gallery_theme_support['carouselsmall']['size_h'],
 										'type' => 'positive_number',
 										'newline' => true,
+										'theme_reset' => true,
 									),
 									array(
 										'option_name' => 'carouselsmall_crop',
@@ -291,6 +319,7 @@ function wc_gallery_options( $options ) {
 										'description' => '',
 										'type' => 'checkbox',
 										'newline' => true,
+										'theme_reset' => true,
 									),
 									array(
 										'option_name' => 'carouselsmall_enable',
@@ -298,6 +327,7 @@ function wc_gallery_options( $options ) {
 										'default' => $wc_gallery_theme_support['carouselsmall']['enable'],
 										'description' => '',
 										'type' => 'checkbox',
+										'theme_reset' => true,
 									),
 								),
 							),
@@ -311,6 +341,7 @@ function wc_gallery_options( $options ) {
 										'label' => 'Max Width',
 										'default' => $wc_gallery_theme_support['carousel']['size_w'],
 										'type' => 'positive_number',
+										'theme_reset' => true,
 									),
 									array(
 										'option_name' => 'carousel_size_h',
@@ -318,6 +349,7 @@ function wc_gallery_options( $options ) {
 										'default' => $wc_gallery_theme_support['carousel']['size_h'],
 										'type' => 'positive_number',
 										'newline' => true,
+										'theme_reset' => true,
 									),
 									array(
 										'option_name' => 'carousel_crop',
@@ -326,6 +358,7 @@ function wc_gallery_options( $options ) {
 										'description' => '',
 										'type' => 'checkbox',
 										'newline' => true,
+										'theme_reset' => true,
 									),
 									array(
 										'option_name' => 'carousel_enable',
@@ -333,6 +366,7 @@ function wc_gallery_options( $options ) {
 										'default' => $wc_gallery_theme_support['carousel']['enable'],
 										'description' => '',
 										'type' => 'checkbox',
+										'theme_reset' => true,
 									),
 								),
 							),
@@ -346,6 +380,7 @@ function wc_gallery_options( $options ) {
 										'label' => 'Max Width',
 										'default' => $wc_gallery_theme_support['slider']['size_w'],
 										'type' => 'positive_number',
+										'theme_reset' => true,
 									),
 									array(
 										'option_name' => 'slider_size_h',
@@ -353,6 +388,7 @@ function wc_gallery_options( $options ) {
 										'default' => $wc_gallery_theme_support['slider']['size_h'],
 										'type' => 'positive_number',
 										'newline' => true,
+										'theme_reset' => true,
 									),
 									array(
 										'option_name' => 'slider_crop',
@@ -361,6 +397,7 @@ function wc_gallery_options( $options ) {
 										'description' => '',
 										'type' => 'checkbox',
 										'newline' => true,
+										'theme_reset' => true,
 									),
 									array(
 										'option_name' => 'slider_enable',
@@ -368,6 +405,7 @@ function wc_gallery_options( $options ) {
 										'default' => $wc_gallery_theme_support['slider']['enable'],
 										'description' => '',
 										'type' => 'checkbox',
+										'theme_reset' => true,
 									),
 								),
 							),
@@ -391,6 +429,7 @@ function wc_gallery_options( $options ) {
 								'description' => '',
 								'label' => 'Use gallery CSS provided by plugin',
 								'type' => 'checkbox',
+								'theme_reset' => true,
 							),
 							array(
 								'option_name' => 'enable_image_popup',
@@ -399,6 +438,7 @@ function wc_gallery_options( $options ) {
 								'description' => '',
 								'label' => 'Use <a target="_blank" href="http://dimsemenov.com/plugins/magnific-popup/">Magnific Popup</a> to showcase your images?',
 								'type' => 'checkbox',
+								'theme_reset' => true,
 							),
 						),
 					),
@@ -410,3 +450,10 @@ function wc_gallery_options( $options ) {
 	return $options;
 }
 add_filter( 'wc_gallery_wpcsf_options', 'wc_gallery_options', 10, 1 );
+
+function wc_gallery_theme_support() {
+	global $wc_gallery_theme_support;
+
+	return $wc_gallery_theme_support;
+}
+add_filter( 'wc_gallery_wpcsf_theme_support', 'wc_gallery_theme_support', 10, 1 );

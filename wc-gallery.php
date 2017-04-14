@@ -40,7 +40,7 @@ function wc_gallery_using_woocommerce() {
 	return in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) );
 }
 
-define( 'WC_GALLERY_VERSION', '1.52' );
+define( 'WC_GALLERY_VERSION', '1.55' );
 define( 'WC_GALLERY_PREFIX', 'wc_gallery_' );
 define( '_WC_GALLERY_PREFIX', '_wc_gallery_' );
 define( 'WC_GALLERY_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -52,6 +52,7 @@ global $wc_gallery_options;
 global $wc_gallery_theme_support;
 
 $wc_gallery_theme_support = array(
+	'theme_reset' => true,
 	'icon' => array(
 		'size_w' => '48',
 		'size_h' => '48',
