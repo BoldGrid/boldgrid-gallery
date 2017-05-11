@@ -24,6 +24,9 @@ BoldGrid Gallery is a standalone plugin used for slideshows and galleries.
 
 == Changelog ==
 
+= 1.4.2 In progress =
+* Bug fix:		JIRA WPB-3161	Fixed auto plugin update.
+
 = 1.4.1 =
 * Bug fix:		JIRA WPB-3151	Added check and load before using get_plugin_data() for updates.
 * Update:		JIRA WPB-3112	Updated wc-gallery: 1.52 => 1.55.
