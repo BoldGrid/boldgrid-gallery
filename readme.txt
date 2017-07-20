@@ -1,8 +1,8 @@
 === BoldGrid Gallery ===
 Contributors: imh_brad, joemoto, rramo012, timph
-Tags: inspiration,customization,build,create,design,gallery,slider,slideshow
+Tags: gallery, slider, slideshow, masonry
 Requires at least: 4.3
-Tested up to: 4.7.4
+Tested up to: 4.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -24,7 +24,7 @@ BoldGrid Gallery is a standalone plugin used for slideshows and galleries.
 
 == Changelog ==
 
-= 1.4.3 In progress =
+= 1.4.3 =
 * Update:		JIRA WPB-3292	Updated plugin URI.
 
 = 1.4.2 =
