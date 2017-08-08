@@ -3,9 +3,9 @@
  * Plugin Name: BoldGrid Gallery
  * Plugin URI: https://www.boldgrid.com/wordpress-gallery-plugin/
  * Description: Extend WordPress galleries to display masonry gallery and slider gallery
- * Version: 1.4.3
+ * Version: 1.5
  * Author: BoldGrid.com <wpb@boldgrid.com>
- * Author URI: https://www.boldgrid.com
+ * Author URI: https://www.boldgrid.com/
  * Text Domain: boldgrid-gallery
  * Domain Path: /languages
  * License: GPLv2 or later
