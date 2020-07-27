@@ -113,9 +113,7 @@ class Boldgrid_Gallery_Update {
 		 * @see pre_set_site_transient https://core.trac.wordpress.org/browser/tags/5.4/src/wp-includes/option.php#L1822
 		 * @see plugins_api            https://core.trac.wordpress.org/browser/tags/5.4/src/wp-admin/includes/plugin-install.php#L136
 		 */
-		if ( empty( $transient ) ) {
-			$transient = new stdClass();
-		}
+		$transient = (object) $transient;
 
 		$version_data = get_site_transient( $this->configs['plugin_transient_name'] );
 
