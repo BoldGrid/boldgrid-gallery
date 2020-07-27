@@ -2,7 +2,7 @@
 Contributors: imh_brad, joemoto, rramo012, timph
 Tags: gallery, slider, slideshow, masonry
 Requires at least: 4.4
-Tested up to: 4.8.1
+Tested up to: 5.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,6 +23,10 @@ BoldGrid Gallery is a standalone plugin used for slideshows and galleries.
 2. Activate the plugin through the Plugins menu in WordPress.
 
 == Changelog ==
+
+= 1.5.1 =
+* Bug fix:                      Fix update class.
+* Bug fix:                      Trying to access array offset on value of type bool.
 
 = 1.5 =
 * Update:						Bump version.
