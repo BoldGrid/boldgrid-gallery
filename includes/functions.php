@@ -786,6 +786,17 @@ function wc_gallery_after_setup_theme() {
 	$defined_sizes = get_intermediate_image_sizes();
 
 	foreach ( $wc_gallery_theme_support as $size => $value ) {
+		/*
+		 * Continue if we don't have valid image size data.
+		 *
+		 * The global $wc_gallery_theme_support variable is defined in the main wc-gallery file and
+		 * is an array of sizes and size data. It includes 'theme_reset' (bool) key that is not actually
+		 * an image size and needs to be skipped.
+		 */
+		if ( ! is_array( $value ) ) {
+			continue;
+		}
+
 		if ( in_array( 'wc' . $size, $defined_sizes ) ) {
 			continue;
 		}
