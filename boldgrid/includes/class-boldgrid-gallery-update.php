@@ -98,6 +98,25 @@ class Boldgrid_Gallery_Update {
 	 * @return object $transient
 	 */
 	public function custom_plugins_transient_update( $transient ) {
+		/*
+		 * If empty, set default value for $transient.
+		 *
+		 * This method is used to filter both:
+		 * # plugins_api
+		 * # pre_set_site_transient_update_plugins
+		 *
+		 * Each filter passes different arguments. In the case of plugins_api, $transient will be false
+		 * here and we must set it to an empty object in order to avoid "Creating default object from
+		 * empty value" warnings.
+		 *
+		 * @todo Each filter may need a different method assigned to it (see above). Rework may be needed.
+		 * @see pre_set_site_transient https://core.trac.wordpress.org/browser/tags/5.4/src/wp-includes/option.php#L1822
+		 * @see plugins_api            https://core.trac.wordpress.org/browser/tags/5.4/src/wp-admin/includes/plugin-install.php#L136
+		 */
+		if ( empty( $transient ) ) {
+			$transient = new stdClass();
+		}
+
 		$version_data = get_site_transient( $this->configs['plugin_transient_name'] );
 
 		if ( ! function_exists( 'get_plugin_data' ) ) {
@@ -153,9 +172,6 @@ class Boldgrid_Gallery_Update {
 		// Create a new object to be injected into transient.
 		if ( 'plugin-install.php' === $pagenow && isset( $_GET['plugin'] ) &&
 			 $this->configs['plugin_name'] === $_GET['plugin'] ) {
-			// For version information iframe (/plugin-install.php).
-			$transient = new stdClass();
-
 			// If we have section data, then prepare it for use.
 			if ( ! empty( $version_data->result->data->sections ) ) {
 				// Remove new lines and double-spaces, to help prevent a broken JSON set.
